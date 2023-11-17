@@ -14,15 +14,18 @@ public class Testing : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (GameplaySystem.Instance.GetCurrentState() == GameState.Battle)
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-            Physics.Raycast(ray, out RaycastHit hitInfo);
-
-            if (hitInfo.transform.TryGetComponent<Tower>(out Tower tower))
+            if (Input.GetMouseButtonDown(0))
             {
-                tower.GetDamage(attackAmount);
+                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+                Physics.Raycast(ray, out RaycastHit hitInfo);
+
+                if (hitInfo.transform.TryGetComponent<Tower>(out Tower tower))
+                {
+                    tower.GetDamage(attackAmount);
+                }
             }
         }
     }

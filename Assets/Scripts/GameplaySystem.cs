@@ -18,15 +18,21 @@ public class GameplaySystem : MonoBehaviour
     private ParticipantDataManager enemyData;
 
     public event EventHandler OnTrophyCountChanged;
+    public event Action<GameState> OnGameStateChanged;
 
     // Timer
     [SerializeField][Tooltip("in seconds")] private float battleTime;
-    private float currentTime;
+    [SerializeField] private float loadingTime = 5;
+    private float countdownBattleTimer;
+    private float countdownLoadingTimer;
+
     private float playerTotalMaxHealth = 0;
     private float enemyTotalMaxHealth = 0;
     private float playerTotalCurrentHealth = 0;
     private float enemyTotalCurrentHealth = 0;
     private string gameResult = "";
+
+    private GameState gameState;
 
     private void Awake()
     {
@@ -42,7 +48,8 @@ public class GameplaySystem : MonoBehaviour
 
     private void Start()
     {
-        currentTime = battleTime;
+        countdownBattleTimer = battleTime;
+        countdownLoadingTimer = loadingTime;
 
         playerData = new ParticipantDataManager();
         enemyData = new ParticipantDataManager();
@@ -53,19 +60,49 @@ public class GameplaySystem : MonoBehaviour
 
     private void Update()
     {
-        if (currentTime > 0)
+        switch (gameState)
         {
-            currentTime -= Time.deltaTime;
+            case GameState.Loading:
+                LoadingState();
+                break;
+            case GameState.Battle:
+                BattleState();
+                break;
+            case GameState.Result:
+                ResultState();
+                break;
         }
-        else
-        {
-            gameResult = DetermineWinner();
-            print("Result is " + gameResult);
-        }
-        GetCurrentTimerConverted();
     }
 
-    
+    private void LoadingState()
+    {
+        countdownLoadingTimer -= Time.deltaTime;
+        if (countdownLoadingTimer <= 0)
+        {
+            UpdateGameState(GameState.Battle);
+        }
+    }
+
+    private void BattleState()
+    {
+        countdownBattleTimer -= Time.deltaTime;
+        if (countdownBattleTimer <= 0)
+        {
+            UpdateGameState(GameState.Result);
+        }
+    }
+
+    private void ResultState()
+    {
+        gameResult = DetermineWinner();
+    }
+
+    public void UpdateGameState(GameState newState)
+    {
+        gameState = newState;
+
+        OnGameStateChanged?.Invoke(newState);
+    }
 
     private void TowerListing()
     {
@@ -113,43 +150,48 @@ public class GameplaySystem : MonoBehaviour
 
     public string GetCurrentTimerConverted()
     {
-        int minutes = (int)currentTime / 60;
-        int seconds = (int)currentTime % 60;
+        int minutes = (int)countdownBattleTimer / 60;
+        int seconds = (int)countdownBattleTimer % 60;
         return $"{minutes:00}:{seconds:00}";
     }
 
     private string DetermineWinner()
     {
-        if (gameResult != "") return gameResult;
-
-        if (playerData.Score > enemyData.Score)
+        if (gameResult != "")
         {
-            return "Player Win";
-        }
-        else if (enemyData.Score > playerData.Score)
-        {
-            return "Enemy Win";
+            return gameResult;
         }
         else
         {
-            SumTotalCurrentHealth();
-
-            float playerDamage = CalculateDamagePercentage(playerTotalCurrentHealth, playerTotalMaxHealth);
-            print("enemy damage to player is " + playerDamage);
-            float enemyDamage = CalculateDamagePercentage(enemyTotalCurrentHealth, enemyTotalMaxHealth);
-            print("player damage to enemy is " + enemyDamage);
-            
-            if (playerDamage > enemyDamage)
-            {
-                return "Enemy Win";
-            }
-            else if (enemyDamage > playerDamage)
+            if (playerData.Score > enemyData.Score)
             {
                 return "Player Win";
             }
+            else if (enemyData.Score > playerData.Score)
+            {
+                return "Enemy Win";
+            }
             else
             {
-                return "Draw";
+                SumTotalCurrentHealth();
+
+                float playerDamage = CalculateDamagePercentage(playerTotalCurrentHealth, playerTotalMaxHealth);
+                print("enemy damage to player is " + playerDamage);
+                float enemyDamage = CalculateDamagePercentage(enemyTotalCurrentHealth, enemyTotalMaxHealth);
+                print("player damage to enemy is " + enemyDamage);
+
+                if (playerDamage > enemyDamage)
+                {
+                    return "Enemy Win";
+                }
+                else if (enemyDamage > playerDamage)
+                {
+                    return "Player Win";
+                }
+                else
+                {
+                    return "Draw";
+                }
             }
         }
     }
@@ -194,5 +236,15 @@ public class GameplaySystem : MonoBehaviour
     {
         playerScore = playerData.Score;
         enemyScore = enemyData.Score;
+    }
+
+    public string GetCountdownLoadingTimer()
+    {
+        return $"{(int)countdownLoadingTimer}";
+    }
+
+    public GameState GetCurrentState()
+    {
+        return gameState;
     }
 }
