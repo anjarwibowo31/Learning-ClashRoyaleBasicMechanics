@@ -81,6 +81,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerVisual: {fileID: 2654685228388310914}
+  towerFlag:
+  - {fileID: 4818827327961414435}
+  participant: 0
+  participantData: {fileID: 11400000, guid: 3e881838ff1b25b4eb9b66fef75bba43, type: 2}
+  healthValue: 1500
 --- !u!65 &4230773634075989033
 BoxCollider:
   m_ObjectHideFlags: 0

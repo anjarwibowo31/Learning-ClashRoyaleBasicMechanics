@@ -26,9 +26,8 @@ public class HealthbarUI : MonoBehaviour
         healthbar.value = tower.Health;
     }
 
-    private void Tower_OnTowerDestroyed(object sender, TowerDestroyedEventArgs e)
+    private void Tower_OnTowerDestroyed(object sender, Tower.TowerDestroyedEventArgs e)
     {
-        print("Healthbar should deactive");
         healthbar.gameObject.SetActive(false);
     }
 }

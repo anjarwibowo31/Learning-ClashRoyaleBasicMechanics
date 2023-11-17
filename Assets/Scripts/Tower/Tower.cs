@@ -3,26 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TowerDestroyedEventArgs : EventArgs
-{
-    public Tower DestroyedTower { get; private set; }
-
-    public TowerDestroyedEventArgs(Tower destroyedTower)
-    {
-        DestroyedTower = destroyedTower;
-    }
-}
-
 public abstract class Tower : MonoBehaviour
 {
+    public class TowerDestroyedEventArgs : EventArgs
+    {
+        public Tower DestroyedTower { get; private set; }
+
+        public TowerDestroyedEventArgs(Tower destroyedTower)
+        {
+            DestroyedTower = destroyedTower;
+        }
+    }
+
     public event EventHandler<TowerDestroyedEventArgs> OnTowerDestroyed;
     public event EventHandler OnTowerDamaged;
 
     public abstract float Health { get; set; }
 
     [SerializeField] protected GameObject towerVisual;
+    [SerializeField] protected MeshRenderer[] towerFlag;
+    [SerializeField] protected Participant participant;
 
-    protected Collider towerCollider; 
+    protected Collider towerCollider;
+
+    public void Start()
+    {
+        foreach (MeshRenderer tower in towerFlag)
+        {
+            tower.material = ParticipantDataManager.Instance.participantDictionary[participant].partyFlag;
+        }
+    }
 
     private void Awake()
     {

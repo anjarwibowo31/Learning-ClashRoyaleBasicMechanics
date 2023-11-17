@@ -4,18 +4,13 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-public enum GameState
-{
-    Loading,
-    Battle,
-    Result
-}
 
 public class GameplaySystem : MonoBehaviour
 {
     public static GameplaySystem Instance { get; private set; }
-    private ParticipantDataManager playerData;
-    private ParticipantDataManager enemyData;
+
+    private TowerDataManager playerData;
+    private TowerDataManager enemyData;
 
     public event EventHandler OnTrophyCountChanged;
     public event Action<GameState> OnGameStateChanged;
@@ -51,8 +46,8 @@ public class GameplaySystem : MonoBehaviour
         countdownBattleTimer = battleTime;
         countdownLoadingTimer = loadingTime;
 
-        playerData = new ParticipantDataManager();
-        enemyData = new ParticipantDataManager();
+        playerData = new TowerDataManager();
+        enemyData = new TowerDataManager();
 
         TowerListing();
         SumTotalMaxHealth();
@@ -123,7 +118,7 @@ public class GameplaySystem : MonoBehaviour
         }
     }
 
-    private void Tower_OnTowerDestroyed(object sender, TowerDestroyedEventArgs e)
+    private void Tower_OnTowerDestroyed(object sender, Tower.TowerDestroyedEventArgs e)
     {
         for (int i = 0; i <= playerData.TowerList.Count - 1; i++)
         {
