@@ -57,6 +57,7 @@ public class GroundAttackSpell : SpellBehaviour
     private void Start()
     {
         spellData = GetComponent<Spell>().GroundAttackData;
+        OnSpawn(transform.position);
     }
 
     public override void OnSpawn(Vector3 spawnPoint)
@@ -68,7 +69,7 @@ public class GroundAttackSpell : SpellBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, endPos, Time.deltaTime * 1.0f);
+        transform.position = Vector3.Lerp(transform.position, endPos, Time.deltaTime * 4.0f);
     }
 }
 
