@@ -5,18 +5,23 @@ using UnityEditor;
 using UnityEngine;
 
 
-public class Spell : MonoBehaviour
+public class SpellCard : Card
 {
-    public SpellBehaviourType SpellBehaviourType { get { return spellBehaviourType; } set { spellBehaviourType = value; } }
-    public GroundAttackData GroundAttackData { get { return groundAttackData; } set { groundAttackData = value; } }
-    public SplashAreaAttackData SplashAreaAttackData { get { return splashAreaAttackData; } set { splashAreaAttackData = value; } }
-    public TowerTargetingAttackData TowerTargetingAttackData { get { return towerTargetingAttackData; } set { towerTargetingAttackData = value; } }
+    public SpellBehaviourType SpellBehaviourType { get => spellBehaviourType; set => spellBehaviourType = value; }
+    public GroundAttackData GroundAttackData { get => groundAttackData; set => groundAttackData = value; }
+    public SplashAreaAttackData SplashAreaAttackData { get => splashAreaAttackData; set => splashAreaAttackData = value; }
+    public TowerTargetingAttackData TowerTargetingAttackData { get => towerTargetingAttackData; set => towerTargetingAttackData = value; }
+    public override CardType CardType { get => cardType; }
+    public override string CardName { get => cardName; }
+
+    [SerializeField] private string cardName;
 
     [SerializeField] private SpellBehaviourType spellBehaviourType;
     [SerializeField] private GroundAttackData groundAttackData;
     [SerializeField] private SplashAreaAttackData splashAreaAttackData;
     [SerializeField] private TowerTargetingAttackData towerTargetingAttackData;
 
+    public const CardType cardType = CardType.Spell;
     private SpellBehaviour spellBehaviour;
 
     private void Awake()
@@ -56,7 +61,7 @@ public class GroundAttackSpell : SpellBehaviour
 
     private void Start()
     {
-        spellData = GetComponent<Spell>().GroundAttackData;
+        spellData = GetComponent<SpellCard>().GroundAttackData;
         OnSpawn(transform.position);
     }
 
@@ -83,7 +88,7 @@ public class SplashAreaAttackSpell : SpellBehaviour
 {
     private void Start()
     {
-        SplashAreaAttackData data = GetComponent<Spell>().SplashAreaAttackData;
+        SplashAreaAttackData data = GetComponent<SpellCard>().SplashAreaAttackData;
     }
 
     public override void OnSpawn(Vector3 spawnPoint)
@@ -102,7 +107,7 @@ public class TowerTargetingAttackSpell : SpellBehaviour
 {
     private void Start()
     {
-        TowerTargetingAttackData data = GetComponent<Spell>().TowerTargetingAttackData;
+        TowerTargetingAttackData data = GetComponent<SpellCard>().TowerTargetingAttackData;
     }
 
     public override void OnSpawn(Vector3 spawnPoint)
@@ -111,9 +116,10 @@ public class TowerTargetingAttackSpell : SpellBehaviour
     }
 }
 
-[CustomEditor(typeof(Spell))]
+[CustomEditor(typeof(SpellCard))]
 public class SpellEditor : Editor
 {
+    SerializedProperty cardNameProp;
     SerializedProperty spellBehaviourTypeProp;
     SerializedProperty groundAttackDataProp;
     SerializedProperty splashAreaAttackDataProp;
@@ -121,6 +127,7 @@ public class SpellEditor : Editor
 
     void OnEnable()
     {
+        cardNameProp = serializedObject.FindProperty("cardName");
         spellBehaviourTypeProp = serializedObject.FindProperty("spellBehaviourType");
         groundAttackDataProp = serializedObject.FindProperty("groundAttackData");
         splashAreaAttackDataProp = serializedObject.FindProperty("splashAreaAttackData");
@@ -131,6 +138,7 @@ public class SpellEditor : Editor
     {
         serializedObject.Update();
 
+        EditorGUILayout.PropertyField(cardNameProp);
         EditorGUILayout.PropertyField(spellBehaviourTypeProp);
 
         SpellBehaviourType selectedType = (SpellBehaviourType)spellBehaviourTypeProp.enumValueIndex;

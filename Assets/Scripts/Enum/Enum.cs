@@ -11,17 +11,16 @@ public enum GameState
     Result
 }
 
-public enum SpawnObjectType
-{
-    Troop,
-    Tower,
-    Spell
-}
-
-
 public enum SpellBehaviourType
 {
     GroundAttack,
     SplashAreaAttack,
     TowerTargetingAttack
+}
+
+public enum CardType
+{
+    Spell,
+    Troop,
+    Tower
 }
