@@ -250,6 +250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   towerVisual: {fileID: 5559006177154703554}
+  towerArea: {fileID: 8564166224793697279}
   towerFlag:
   - {fileID: 3029677410457675788}
   - {fileID: 6592159002980932619}

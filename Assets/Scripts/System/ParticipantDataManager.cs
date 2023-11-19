@@ -3,20 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
+public class SingleParticipantData
+{
+    public Participant partyName;
+    public Material partyFlag;
+
+    public List<Tower> TowerList { get; private set; }
+
+    public int Score { get; set; } = 0;
+
+    public float TotalMaxHealth { get; set; }
+    public float TotalCurrentHealth { get; set; }
+
+    public SingleParticipantData()
+    {
+        TowerList = new List<Tower>();
+    }
+}
+
 public class ParticipantDataManager : MonoBehaviour
 {
     public static ParticipantDataManager Instance {  get; private set; }
 
-    [Serializable]
-    public class SingleParticipantData
-    {
-        public Participant partyName;
-        public Material partyFlag;
-    }
-
-    public Dictionary<Participant, SingleParticipantData> participantDictionary { get; private set; }
+    public Dictionary<Participant, SingleParticipantData> ParticipantDictionary { get; private set; }
 
     [SerializeField] private SingleParticipantData[] participantDataArray;
+
 
     private void Awake()
     {
@@ -29,11 +42,11 @@ public class ParticipantDataManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        participantDictionary = new Dictionary<Participant, SingleParticipantData>();
+        ParticipantDictionary = new Dictionary<Participant, SingleParticipantData>();
 
         foreach (var participant in participantDataArray)
         {
-            participantDictionary.Add(participant.partyName,participant);
+            ParticipantDictionary.Add(participant.partyName,participant);
         }
     }
 }

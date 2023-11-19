@@ -83,9 +83,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   towerVisual: {fileID: 2654685228388310914}
+  towerArea: {fileID: 7039917348108617728}
   towerFlag:
   - {fileID: 4818827327961414435}
-  participant: 0
+  participant: 1
 --- !u!65 &4230773634075989033
 BoxCollider:
   m_ObjectHideFlags: 0

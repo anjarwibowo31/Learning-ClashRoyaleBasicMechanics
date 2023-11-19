@@ -9,9 +9,8 @@ public class GameplaySystem : MonoBehaviour
 {
     public static GameplaySystem Instance { get; private set; }
 
-    // SHOULD REFACTOR TowerDataManager
-    private TowerDataManager playerData;
-    private TowerDataManager enemyData;
+    private SingleParticipantData playerData;
+    private SingleParticipantData enemyData;
 
     public event EventHandler OnTrophyCountChanged;
     public event Action<GameState> OnGameStateChanged;
@@ -22,10 +21,6 @@ public class GameplaySystem : MonoBehaviour
     private float countdownBattleTimer;
     private float countdownLoadingTimer;
 
-    private float playerTotalMaxHealth = 0;
-    private float enemyTotalMaxHealth = 0;
-    private float playerTotalCurrentHealth = 0;
-    private float enemyTotalCurrentHealth = 0;
     private string gameResult = "";
 
     private GameState gameState;
@@ -47,10 +42,11 @@ public class GameplaySystem : MonoBehaviour
         countdownBattleTimer = battleTime;
         countdownLoadingTimer = loadingTime;
 
-        playerData = new TowerDataManager();
-        enemyData = new TowerDataManager();
+        playerData = ParticipantDataManager.Instance.ParticipantDictionary[Participant.Player];
+        enemyData = ParticipantDataManager.Instance.ParticipantDictionary[Participant.Enemy];
 
         TowerListing();
+
         SumTotalMaxHealth();
     }
 
@@ -70,47 +66,17 @@ public class GameplaySystem : MonoBehaviour
         }
     }
 
-    private void LoadingState()
-    {
-        countdownLoadingTimer -= Time.deltaTime;
-        if (countdownLoadingTimer <= 0)
-        {
-            UpdateGameState(GameState.Battle);
-        }
-    }
-
-    private void BattleState()
-    {
-        countdownBattleTimer -= Time.deltaTime;
-        if (countdownBattleTimer <= 0)
-        {
-            UpdateGameState(GameState.Result);
-        }
-    }
-
-    private void ResultState()
-    {
-        gameResult = DetermineWinner();
-    }
-
-    public void UpdateGameState(GameState newState)
-    {
-        gameState = newState;
-
-        OnGameStateChanged?.Invoke(newState);
-    }
-
     private void TowerListing()
     {
         Tower[] towerlist = FindObjectsOfType<Tower>();
 
         foreach (Tower tower in towerlist)
         {
-            if (tower.CompareTag("PlayerTower"))
+            if (tower.Participant == Participant.Player)
             {
                 playerData.TowerList.Add(tower);
             }
-            else if (tower.CompareTag("EnemyTower"))
+            else if (tower.Participant == Participant.Enemy)
             {
                 enemyData.TowerList.Add(tower);
             }
@@ -144,6 +110,36 @@ public class GameplaySystem : MonoBehaviour
         OnTrophyCountChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    private void LoadingState()
+    {
+        countdownLoadingTimer -= Time.deltaTime;
+        if (countdownLoadingTimer <= 0)
+        {
+            UpdateGameState(GameState.Battle);
+        }
+    }
+
+    private void BattleState()
+    {
+        countdownBattleTimer -= Time.deltaTime;
+        if (countdownBattleTimer <= 0)
+        {
+            UpdateGameState(GameState.Result);
+        }
+    }
+
+    private void ResultState()
+    {
+        gameResult = DetermineWinner();
+    }
+
+    public void UpdateGameState(GameState newState)
+    {
+        gameState = newState;
+
+        OnGameStateChanged?.Invoke(newState);
+    }
+
     public string GetCurrentTimerConverted()
     {
         int minutes = (int)countdownBattleTimer / 60;
@@ -171,9 +167,9 @@ public class GameplaySystem : MonoBehaviour
             {
                 SumTotalCurrentHealth();
 
-                float playerDamage = CalculateDamagePercentage(playerTotalCurrentHealth, playerTotalMaxHealth);
+                float playerDamage = CalculateDamagePercentage(playerData.TotalCurrentHealth, playerData.TotalMaxHealth);
                 print("enemy damage to player is " + playerDamage);
-                float enemyDamage = CalculateDamagePercentage(enemyTotalCurrentHealth, enemyTotalMaxHealth);
+                float enemyDamage = CalculateDamagePercentage(enemyData.TotalCurrentHealth, enemyData.TotalMaxHealth);
                 print("player damage to enemy is " + enemyDamage);
 
                 if (playerDamage > enemyDamage)
@@ -196,31 +192,31 @@ public class GameplaySystem : MonoBehaviour
     {
         foreach (Tower tower in playerData.TowerList)
         {
-            playerTotalCurrentHealth += tower.Health;
+            playerData.TotalCurrentHealth += tower.Health;
         }
 
         foreach (Tower tower in enemyData.TowerList)
         {
-            enemyTotalCurrentHealth += tower.Health;
+            enemyData.TotalCurrentHealth += tower.Health;
         }
 
-        print("player total current health is " + playerTotalCurrentHealth);
-        print("enemy total current health is " + enemyTotalCurrentHealth);
+        print("player total current health is " + playerData.TotalCurrentHealth);
+        print("enemy total current health is " + enemyData.TotalCurrentHealth);
     }
 
     private void SumTotalMaxHealth()
     {
         foreach (Tower tower in playerData.TowerList)
         {
-            playerTotalMaxHealth += tower.Health;
+            playerData.TotalMaxHealth += tower.Health;
         }
 
         foreach (Tower tower in enemyData.TowerList)
         {
-            enemyTotalMaxHealth += tower.Health;
+            enemyData.TotalMaxHealth += tower.Health;
         }
-        print("player total max health is " + playerTotalMaxHealth);
-        print("enemy total max health is " + enemyTotalMaxHealth);
+        print("player total max health is " + playerData.TotalMaxHealth);
+        print("enemy total max health is " + enemyData.TotalMaxHealth);
     }
 
     public float CalculateDamagePercentage(float currentHealth, float MaxHealth)

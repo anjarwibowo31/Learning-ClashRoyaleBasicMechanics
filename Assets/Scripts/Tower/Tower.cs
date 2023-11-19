@@ -19,22 +19,14 @@ public abstract class Tower : MonoBehaviour
     public event EventHandler OnTowerDamaged;
 
 
-    [SerializeField] private float health;
-    public float Health
-    {
-        get
-        {
-            return health;
-        }
-        set
-        {
-            health = value;
-        }
-    }
+    public float Health { get { return health; } }
+    public Participant Participant { get { return participant; } }
 
-    [SerializeField] protected GameObject towerVisual;
-    [SerializeField] protected MeshRenderer[] towerFlag;
-    [SerializeField] protected Participant participant;
+    [SerializeField] private float health;
+    [SerializeField] private GameObject towerVisual;
+    [SerializeField] private GameObject towerArea;
+    [SerializeField] private MeshRenderer[] towerFlag;
+    [SerializeField] private Participant participant;
 
     protected Collider towerCollider;
 
@@ -42,7 +34,7 @@ public abstract class Tower : MonoBehaviour
     {
         foreach (MeshRenderer tower in towerFlag)
         {
-            tower.material = ParticipantDataManager.Instance.participantDictionary[participant].partyFlag;
+            tower.material = ParticipantDataManager.Instance.ParticipantDictionary[participant].partyFlag;
         }
     }
 
@@ -53,10 +45,10 @@ public abstract class Tower : MonoBehaviour
 
     public virtual void GetDamage(float damageAmount)
     {
-        Health -= damageAmount;
+        health -= damageAmount;
         OnTowerDamaged?.Invoke(this, EventArgs.Empty);
         
-        if (Health <= 0)
+        if (health <= 0)
         {
             GetDestroyed();
         }
@@ -68,6 +60,7 @@ public abstract class Tower : MonoBehaviour
         OnTowerDestroyed?.Invoke(this, eventArgs);
 
         towerVisual.SetActive(false);
+        towerArea.SetActive(false);
         towerCollider.enabled = false;
     }
 }
