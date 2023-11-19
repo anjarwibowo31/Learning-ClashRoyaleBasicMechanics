@@ -18,7 +18,19 @@ public abstract class Tower : MonoBehaviour
     public event EventHandler<TowerDestroyedEventArgs> OnTowerDestroyed;
     public event EventHandler OnTowerDamaged;
 
-    public abstract float Health { get; set; }
+
+    [SerializeField] private float health;
+    public float Health
+    {
+        get
+        {
+            return health;
+        }
+        set
+        {
+            health = value;
+        }
+    }
 
     [SerializeField] protected GameObject towerVisual;
     [SerializeField] protected MeshRenderer[] towerFlag;

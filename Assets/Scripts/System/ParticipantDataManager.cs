@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ParticipantData", menuName = "ParticipantData")]
 public class ParticipantDataManager : MonoBehaviour
 {
     public static ParticipantDataManager Instance {  get; private set; }
@@ -15,9 +14,9 @@ public class ParticipantDataManager : MonoBehaviour
         public Material partyFlag;
     }
 
-    public SingleParticipantData[] participantDataArray;
+    public Dictionary<Participant, SingleParticipantData> participantDictionary { get; private set; }
 
-    public Dictionary<Participant, SingleParticipantData> participantDictionary = new Dictionary<Participant, SingleParticipantData>();
+    [SerializeField] private SingleParticipantData[] participantDataArray;
 
     private void Awake()
     {
@@ -30,10 +29,11 @@ public class ParticipantDataManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        participantDictionary = new Dictionary<Participant, SingleParticipantData>();
+
         foreach (var participant in participantDataArray)
         {
             participantDictionary.Add(participant.partyName,participant);
-            Debug.Log(participantDictionary[participant.partyName]);
         }
     }
 }

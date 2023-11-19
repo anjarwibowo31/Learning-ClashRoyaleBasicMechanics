@@ -9,6 +9,7 @@ public class GameplaySystem : MonoBehaviour
 {
     public static GameplaySystem Instance { get; private set; }
 
+    // SHOULD REFACTOR TowerDataManager
     private TowerDataManager playerData;
     private TowerDataManager enemyData;
 
