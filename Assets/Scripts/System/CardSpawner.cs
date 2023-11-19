@@ -8,6 +8,8 @@ public class CardSpawner : MonoBehaviour
 
     private Camera mainCamera;
 
+    private Vector3 spawnLocation;
+
     private void Start()
     {
         mainCamera = Camera.main;
@@ -15,6 +17,7 @@ public class CardSpawner : MonoBehaviour
 
     private void Update()
     {
+        // if card spawn is on battle area
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -23,7 +26,7 @@ public class CardSpawner : MonoBehaviour
 
             if (hitInfo.transform.CompareTag("DropArea"))
             {
-                print(hitInfo.point);
+                spawnLocation = hitInfo.transform.position;
             }
         }
     }

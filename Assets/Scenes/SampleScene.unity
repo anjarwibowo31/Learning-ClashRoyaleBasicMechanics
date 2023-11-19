@@ -1196,7 +1196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -120310614667617779, guid: 8a47e0e64dfab814b97a7ac696867991, type: 3}
       propertyPath: participant
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1239068294573044861, guid: 8a47e0e64dfab814b97a7ac696867991, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3573,6 +3573,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1938224366}
   - component: {fileID: 1938224367}
+  - component: {fileID: 1938224368}
   m_Layer: 0
   m_Name: Testing
   m_TagString: Untagged
@@ -3608,6 +3609,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackAmount: 120
+--- !u!114 &1938224368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938224365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc43d24d40ed1949887a76f85289671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1942860648
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3621,7 +3634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7867233510501047598, guid: 06d39b47a147d15408508edfa1c7cc8a, type: 3}
       propertyPath: participant
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 257126369264918071, guid: 06d39b47a147d15408508edfa1c7cc8a, type: 3}
       propertyPath: m_Value
