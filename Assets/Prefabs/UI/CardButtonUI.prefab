@@ -101,6 +101,8 @@ MonoBehaviour:
   cardNameTag: {fileID: 5641653970964043829}
   selectedImage: {fileID: 5641653971318107928}
   card: {fileID: 0}
+  cardButton: {fileID: 5641653970355373195}
+  cardContainer: {fileID: 8655503460508853308, guid: ca749a4410dc600488467b0b235c8739, type: 3}
 --- !u!1 &5641653970964043831
 GameObject:
   m_ObjectHideFlags: 0

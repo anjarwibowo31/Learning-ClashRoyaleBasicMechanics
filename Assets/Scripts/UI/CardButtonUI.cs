@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,13 +14,19 @@ public class CardButtonUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cardNameTag;
     [SerializeField] private Image selectedImage;
     [SerializeField] private Card card;
+    [SerializeField] private Button cardButton;
 
-
-    private void Start()
+    public void SetCardButton(Card card)
     {
         cardNameTag.text = card.CardName;
+        this.card = card;
         selectedImage.enabled = false;
+        cardButton.onClick.AddListener(OnButtonClicked);
     }
 
-    // CAN CALL SELECTION CARD
+    private void OnButtonClicked()
+    {
+        ActionSystem.Instance.SetSelectedCard(card);
+        CardContainerUI.Instance.UpdateCardSelected(card);
+    }
 }

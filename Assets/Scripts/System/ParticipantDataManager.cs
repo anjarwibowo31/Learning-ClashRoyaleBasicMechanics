@@ -27,9 +27,10 @@ public class SingleParticipantData
 
 public class ParticipantDataManager : MonoBehaviour
 {
-    public static ParticipantDataManager Instance {  get; private set; }
+    public static ParticipantDataManager Instance { get; private set; }
 
-    public Dictionary<Participant, SingleParticipantData> ParticipantDictionary { get; private set; }
+    public Dictionary<Participant, SingleParticipantData> ParticipantDictionary { get; private set; } =
+    new Dictionary<Participant, SingleParticipantData>();
 
     [SerializeField] private SingleParticipantData[] participantDataArray;
 
@@ -44,8 +45,6 @@ public class ParticipantDataManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-
-        ParticipantDictionary = new Dictionary<Participant, SingleParticipantData>();
 
         foreach (var participant in participantDataArray)
         {
