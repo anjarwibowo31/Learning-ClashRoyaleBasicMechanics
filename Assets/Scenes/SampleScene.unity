@@ -1758,7 +1758,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardButton (4)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7744807360102098331, guid: 97feafd43c161314ba83aa18924672c4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 97feafd43c161314ba83aa18924672c4, type: 3}
 --- !u!224 &661461383 stripped
 RectTransform:
@@ -2034,7 +2035,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardButton (2)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7744807360102098331, guid: 97feafd43c161314ba83aa18924672c4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 97feafd43c161314ba83aa18924672c4, type: 3}
 --- !u!224 &688389788 stripped
 RectTransform:
@@ -2670,6 +2672,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardButton
       objectReference: {fileID: 0}
+    - target: {fileID: 7744807360102098331, guid: 97feafd43c161314ba83aa18924672c4, type: 3}
+      propertyPath: card
+      value: 
+      objectReference: {fileID: 8402983442352236217, guid: 534e025973d5bbb499aa3fe1126602b4, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97feafd43c161314ba83aa18924672c4, type: 3}
 --- !u!224 &1061221413 stripped
@@ -3376,7 +3382,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardButton (3)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7744807360102098331, guid: 97feafd43c161314ba83aa18924672c4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 97feafd43c161314ba83aa18924672c4, type: 3}
 --- !u!224 &1571760787 stripped
 RectTransform:
@@ -3716,7 +3723,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardButton (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5641653970964043829, guid: 97feafd43c161314ba83aa18924672c4, type: 3}
+      propertyPath: m_text
+      value: Barbarian
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641653970964043829, guid: 97feafd43c161314ba83aa18924672c4, type: 3}
+      propertyPath: m_fontSize
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641653971318107928, guid: 97feafd43c161314ba83aa18924672c4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 7744807360102098331, guid: 97feafd43c161314ba83aa18924672c4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 97feafd43c161314ba83aa18924672c4, type: 3}
 --- !u!224 &1882088079 stripped
 RectTransform:

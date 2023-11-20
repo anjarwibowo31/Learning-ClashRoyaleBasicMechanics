@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class ActionSystem : MonoBehaviour
 {
+    private Participant player = Participant.Player;
+
     Card card;
+
     private void Start()
     {
-        card = ParticipantDataManager.Instance.ParticipantDictionary[Participant.Player].CardContainer["Log Launcher"].GetComponent<Card>();
+        foreach (GameObject card in ParticipantDataManager.Instance.ParticipantDictionary[player].CardOwned)
+        {
+
+        }
     }
 
     private void Update()
     {
-        print(card.CardName);
-        print(card.CardType);
+
     }
 }

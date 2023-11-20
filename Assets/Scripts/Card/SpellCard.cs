@@ -15,6 +15,7 @@ public class SpellCard : Card
     public override string CardName { get => cardName; }
 
     [SerializeField] private string cardName;
+    [SerializeField] private string manaCost;
 
     [SerializeField] private SpellBehaviourType spellBehaviourType;
     [SerializeField] private GroundAttackData groundAttackData;
@@ -120,6 +121,7 @@ public class TowerTargetingAttackSpell : SpellBehaviour
 public class SpellEditor : Editor
 {
     SerializedProperty cardNameProp;
+    SerializedProperty manaCostProp;
     SerializedProperty spellBehaviourTypeProp;
     SerializedProperty groundAttackDataProp;
     SerializedProperty splashAreaAttackDataProp;
@@ -128,6 +130,7 @@ public class SpellEditor : Editor
     void OnEnable()
     {
         cardNameProp = serializedObject.FindProperty("cardName");
+        manaCostProp = serializedObject.FindProperty("manaCost");
         spellBehaviourTypeProp = serializedObject.FindProperty("spellBehaviourType");
         groundAttackDataProp = serializedObject.FindProperty("groundAttackData");
         splashAreaAttackDataProp = serializedObject.FindProperty("splashAreaAttackData");
@@ -139,6 +142,7 @@ public class SpellEditor : Editor
         serializedObject.Update();
 
         EditorGUILayout.PropertyField(cardNameProp);
+        EditorGUILayout.PropertyField(manaCostProp);
         EditorGUILayout.PropertyField(spellBehaviourTypeProp);
 
         SpellBehaviourType selectedType = (SpellBehaviourType)spellBehaviourTypeProp.enumValueIndex;
