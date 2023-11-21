@@ -10,6 +10,10 @@ public class AreaManager : MonoBehaviour
 
     private Dictionary<Participant, List<GameObject>> participantAreaDictionary = new Dictionary<Participant, List<GameObject>>();
 
+    [SerializeField] private Material dropAreaMaterial;
+    [SerializeField] private Material grassMaterial;
+    [SerializeField] private MeshRenderer battleArea;
+
 
     private void Awake()
     {
@@ -27,5 +31,43 @@ public class AreaManager : MonoBehaviour
     {
         participantAreaDictionary.Add(Participant.Player, ParticipantDataManager.Instance.ParticipantDictionary[Participant.Player].RestrictionArea);
         participantAreaDictionary.Add(Participant.Enemy, ParticipantDataManager.Instance.ParticipantDictionary[Participant.Enemy].RestrictionArea);
+    }
+
+    // For Test
+    private void Update()
+    {
+        UpdateArea(ActionSystem.Instance.GetSelectedCard(), Participant.Enemy);
+    }
+
+    public void UpdateArea(Card cardSelected, Participant opposite)
+    {
+        if (cardSelected == null)
+        {
+            battleArea.material = grassMaterial;
+            return;
+        }
+        else
+        {
+            battleArea.material = dropAreaMaterial;
+        }
+
+
+        if (cardSelected.CardDeployLocation == CardDeployLocation.Limited)
+        {
+            foreach (GameObject gameObject in AreaManager.Instance.ParticipantAreaDictionary[opposite])
+            {
+                gameObject.SetActive(true);
+            }
+        }
+        else if (cardSelected.CardDeployLocation == CardDeployLocation.Any)
+        {
+            foreach (List<GameObject> gameObjectList in AreaManager.Instance.ParticipantAreaDictionary.Values)
+            {
+                foreach (GameObject gameObject in gameObjectList)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+        }
     }
 }

@@ -217,8 +217,6 @@ public class GameplaySystem : MonoBehaviour
         {
             enemyData.TotalMaxHealth += tower.Health;
         }
-        print("player total max health is " + playerData.TotalMaxHealth);
-        print("enemy total max health is " + enemyData.TotalMaxHealth);
     }
 
     public float CalculateDamagePercentage(float currentHealth, float MaxHealth)

@@ -9,7 +9,7 @@ public class ActionSystem : MonoBehaviour
     private Participant ownSide = Participant.Player;
     private Participant opposite;
 
-    private Card cardSelected;
+    [SerializeField] private Card cardSelected;
 
     private void Awake()
     {
@@ -52,25 +52,7 @@ public class ActionSystem : MonoBehaviour
     {
         this.cardSelected = cardSelected;
 
-        if (cardSelected.CardDeployLocation == CardDeployLocation.Limited)
-        {
-            print("Zehahahahahahaha");
-            foreach (GameObject gameObject in AreaManager.Instance.ParticipantAreaDictionary[opposite])
-            {
-                print(gameObject.name);
-                gameObject.SetActive(true);
-            }
-        }
-        else if (cardSelected.CardDeployLocation == CardDeployLocation.Any)
-        {
-            foreach (List<GameObject> gameObjectList in AreaManager.Instance.ParticipantAreaDictionary.Values)
-            {
-                foreach (GameObject gameObject in gameObjectList)
-                {
-                    gameObject.SetActive(false);
-                }
-            }
-        }
+        AreaManager.Instance.UpdateArea(cardSelected, opposite);
     }
 
     public Card GetSelectedCard()

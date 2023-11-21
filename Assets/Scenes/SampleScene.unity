@@ -511,7 +511,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eedfc8c1c61dbd6448fe967e08f74841, type: 2}
+  - {fileID: 2100000, guid: 02fd2bb279724974583f145c8b1e3339, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1658,8 +1658,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00f827878a0e9164ea7e74d48eff4434, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleTime: 10
-  loadingTime: 5
+  battleTime: 1000
+  loadingTime: 2
 --- !u!4 &591338076
 Transform:
   m_ObjectHideFlags: 0
@@ -2208,6 +2208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77b6cd6d7d2f7614f9b9f59663390d83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardSelected: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -2736,6 +2737,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a47c8721999aadd4c9f036c72e77dcfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropAreaMaterial: {fileID: 2100000, guid: eedfc8c1c61dbd6448fe967e08f74841, type: 2}
+  grassMaterial: {fileID: 2100000, guid: 02fd2bb279724974583f145c8b1e3339, type: 2}
+  battleArea: {fileID: 72455662}
 --- !u!1 &1255404751
 GameObject:
   m_ObjectHideFlags: 0
@@ -3368,6 +3372,8 @@ MonoBehaviour:
     partyFlag: {fileID: 2100000, guid: 4b9184388501f364f9a6b5cb1ab56782, type: 2}
     cardOwned:
     - {fileID: 4110492595264335162, guid: 534e025973d5bbb499aa3fe1126602b4, type: 3}
+    - {fileID: 4110492595264335162, guid: 9c65c5140379b9c48ba131daae97d71b, type: 3}
+    - {fileID: 4110492595264335162, guid: cce4cd15e5a0c3340819c45230415497, type: 3}
   - partyName: 1
     partyFlag: {fileID: 2100000, guid: 6c2de629e84d77645a768b54c44665fb, type: 2}
     cardOwned:
