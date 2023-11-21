@@ -1141,6 +1141,7 @@ Transform:
   m_Children:
   - {fileID: 591338076}
   - {fileID: 1783325617}
+  - {fileID: 904716204}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2162,6 +2163,50 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &904716203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 904716204}
+  - component: {fileID: 904716205}
+  m_Layer: 0
+  m_Name: ActionSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &904716204
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904716203}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 278108394}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &904716205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904716203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77b6cd6d7d2f7614f9b9f59663390d83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -3273,17 +3318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41ace9db5e5de2345849ba5038b1c6c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  participantDataArray:
-  - partyName: 0
-    partyFlag: {fileID: 2100000, guid: 4b9184388501f364f9a6b5cb1ab56782, type: 2}
-    cardOwned:
-    - {fileID: 4110492595264335162, guid: 534e025973d5bbb499aa3fe1126602b4, type: 3}
-    - {fileID: 4110492595264335162, guid: 9c65c5140379b9c48ba131daae97d71b, type: 3}
-    - {fileID: 4110492595264335162, guid: cce4cd15e5a0c3340819c45230415497, type: 3}
-  - partyName: 1
-    partyFlag: {fileID: 2100000, guid: 6c2de629e84d77645a768b54c44665fb, type: 2}
-    cardOwned:
-    - {fileID: 4110492595264335162, guid: 534e025973d5bbb499aa3fe1126602b4, type: 3}
+  singleParticipantDataArray: []
 --- !u!4 &1783325617
 Transform:
   m_ObjectHideFlags: 0
@@ -3346,7 +3381,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1938224366}
   - component: {fileID: 1938224367}
-  - component: {fileID: 1938224368}
   m_Layer: 0
   m_Name: Testing
   m_TagString: Untagged
@@ -3382,18 +3416,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackAmount: 120
---- !u!114 &1938224368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938224365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77b6cd6d7d2f7614f9b9f59663390d83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1942860648
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3873,6 +3895,10 @@ PrefabInstance:
     - target: {fileID: 3518315075908795904, guid: 8a47e0e64dfab814b97a7ac696867991, type: 3}
       propertyPath: m_Name
       value: WingTower
+      objectReference: {fileID: 0}
+    - target: {fileID: 3518315075908795904, guid: 8a47e0e64dfab814b97a7ac696867991, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3518315075908795904, guid: 8a47e0e64dfab814b97a7ac696867991, type: 3}
       propertyPath: m_TagString

@@ -29,9 +29,4 @@ public class Testing : MonoBehaviour
             }
         }
     }
-
-    public void OnButtonClick()
-    {
-        print("buttonClicked");
-    }
 }

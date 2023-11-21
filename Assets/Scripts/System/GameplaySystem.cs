@@ -15,6 +15,9 @@ public class GameplaySystem : MonoBehaviour
     public event EventHandler OnTrophyCountChanged;
     public event Action<GameState> OnGameStateChanged;
 
+    public GameState GameState => gameState;
+
+
     // Timer
     [SerializeField][Tooltip("in seconds")] private float battleTime;
     [SerializeField] private float loadingTime = 5;
@@ -45,8 +48,6 @@ public class GameplaySystem : MonoBehaviour
         playerData = ParticipantDataManager.Instance.ParticipantDictionary[Participant.Player];
         enemyData = ParticipantDataManager.Instance.ParticipantDictionary[Participant.Enemy];
 
-        TowerListing();
-
         SumTotalMaxHealth();
     }
 
@@ -66,24 +67,25 @@ public class GameplaySystem : MonoBehaviour
         }
     }
 
-    private void TowerListing()
-    {
-        Tower[] towerlist = FindObjectsOfType<Tower>();
+    // SHOULD DELETE IT AND MOVE TO PARTICIPANT DATA
+    //private void TowerListing()
+    //{
+    //    Tower[] towerlist = FindObjectsOfType<Tower>();
 
-        foreach (Tower tower in towerlist)
-        {
-            if (tower.Participant == Participant.Player)
-            {
-                playerData.TowerList.Add(tower);
-            }
-            else if (tower.Participant == Participant.Enemy)
-            {
-                enemyData.TowerList.Add(tower);
-            }
+    //    foreach (Tower tower in towerlist)
+    //    {
+    //        if (tower.Participant == Participant.Player)
+    //        {
+    //            playerData.TowerList.Add(tower);
+    //        }
+    //        else if (tower.Participant == Participant.Enemy)
+    //        {
+    //            enemyData.TowerList.Add(tower);
+    //        }
 
-            tower.OnTowerDestroyed += Tower_OnTowerDestroyed;
-        }
-    }
+    //        tower.OnTowerDestroyed += Tower_OnTowerDestroyed;
+    //    }
+    //}
 
     private void Tower_OnTowerDestroyed(object sender, Tower.TowerDestroyedEventArgs e)
     {

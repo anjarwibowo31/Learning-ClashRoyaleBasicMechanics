@@ -18,6 +18,12 @@ public enum SpellBehaviourType
     TowerTargetingAttack
 }
 
+public enum CardDeployLocation
+{
+    Any,
+    Limited
+}
+
 public enum CardType
 {
     Spell,

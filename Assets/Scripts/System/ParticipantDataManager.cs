@@ -7,6 +7,7 @@ using UnityEngine;
 public class SingleParticipantData
 {
     public GameObject[] CardOwned { get => cardOwned; set => cardOwned = value; }
+    public List<GameObject> RestrictionArea { get; set; }
     public List<Tower> TowerList { get; private set; }
     public int Score { get; set; } = 0;
     public float TotalMaxHealth { get; set; }
@@ -32,8 +33,7 @@ public class ParticipantDataManager : MonoBehaviour
     public Dictionary<Participant, SingleParticipantData> ParticipantDictionary { get; private set; } =
     new Dictionary<Participant, SingleParticipantData>();
 
-    [SerializeField] private SingleParticipantData[] participantDataArray;
-
+    [SerializeField] private SingleParticipantData[] singleParticipantDataArray;
 
     private void Awake()
     {
@@ -46,9 +46,9 @@ public class ParticipantDataManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        foreach (var participant in participantDataArray)
+        foreach (var participant in singleParticipantDataArray)
         {
-            ParticipantDictionary.Add(participant.partyName,participant);
+            ParticipantDictionary.Add(participant.partyName, participant);
 
             foreach (GameObject card in participant.CardOwned)
             {

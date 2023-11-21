@@ -24,10 +24,10 @@ public class ActionSystem : MonoBehaviour
 
     private void Start()
     {
-        foreach (GameObject card in ParticipantDataManager.Instance.ParticipantDictionary[player].CardOwned)
-        {
+        //foreach (GameObject card in ParticipantDataManager.Instance.ParticipantDictionary[player].CardOwned)
+        //{
 
-        }
+        //}
     }
 
     private void Update()

@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardName: Barbarian
-  manaCost: 3
+  manaCost: 5
   spellBehaviourType: 0
   groundAttackData:
     range: 10

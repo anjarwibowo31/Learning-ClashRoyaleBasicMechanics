@@ -15,6 +15,7 @@ public class CardButtonUI : MonoBehaviour
     [SerializeField] private Image selectedImage;
     [SerializeField] private Card card;
     [SerializeField] private Button cardButton;
+    [SerializeField] private TextMeshProUGUI manaCostTag;
 
     public void SetCardButton(Card card)
     {
@@ -22,11 +23,15 @@ public class CardButtonUI : MonoBehaviour
         this.card = card;
         selectedImage.enabled = false;
         cardButton.onClick.AddListener(OnButtonClicked);
+        manaCostTag.text = card.ManaCost.ToString();
     }
 
     private void OnButtonClicked()
     {
-        ActionSystem.Instance.SetSelectedCard(card);
-        CardContainerUI.Instance.UpdateCardSelected(card);
+        if (GameplaySystem.Instance.GameState == GameState.Battle)
+        {
+            ActionSystem.Instance.SetSelectedCard(card);
+            CardContainerUI.Instance.UpdateCardSelected(card);
+        }
     }
 }

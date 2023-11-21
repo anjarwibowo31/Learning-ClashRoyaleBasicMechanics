@@ -10,19 +10,20 @@ public class SpellCard : Card
     public SpellBehaviourType SpellBehaviourType { get => spellBehaviourType; set => spellBehaviourType = value; }
     public GroundAttackData GroundAttackData { get => groundAttackData; set => groundAttackData = value; }
     public SplashAreaAttackData SplashAreaAttackData { get => splashAreaAttackData; set => splashAreaAttackData = value; }
-    public TowerTargetingAttackData TowerTargetingAttackData { get => towerTargetingAttackData; set => towerTargetingAttackData = value; }
     public override CardType CardType { get => cardType; }
     public override string CardName { get => cardName; }
+    public override int ManaCost { get => manaCost; }
+    public override CardDeployLocation Type => cardDeployLocation;
 
     [SerializeField] private string cardName;
-    [SerializeField] private string manaCost;
+    [SerializeField] private int manaCost;
 
     [SerializeField] private SpellBehaviourType spellBehaviourType;
     [SerializeField] private GroundAttackData groundAttackData;
     [SerializeField] private SplashAreaAttackData splashAreaAttackData;
-    [SerializeField] private TowerTargetingAttackData towerTargetingAttackData;
 
-    public const CardType cardType = CardType.Spell;
+    protected CardDeployLocation cardDeployLocation;
+    private const CardType cardType = CardType.Spell;
     private SpellBehaviour spellBehaviour;
 
     private void Awake()
@@ -35,23 +36,24 @@ public class SpellCard : Card
             case SpellBehaviourType.SplashAreaAttack:
                 spellBehaviour = gameObject.AddComponent<SplashAreaAttackSpell>();
                 break;
-            case SpellBehaviourType.TowerTargetingAttack:
-                spellBehaviour = gameObject.AddComponent<TowerTargetingAttackSpell>();
-                break;
         }
+
+        cardDeployLocation = spellBehaviour.CardDeployLocation;
     }
 }
 
 public abstract class SpellBehaviour : MonoBehaviour
 {
+    public abstract CardDeployLocation CardDeployLocation { get;}
     public abstract void OnSpawn(Vector3 spawnPoint);
 }
 
 [Serializable]
 public class GroundAttackData
 {
-    [SerializeField] private int range;
     public int Range { get { return range; } set { range = value; } }
+
+    [SerializeField] private int range;
 }
 
 public class GroundAttackSpell : SpellBehaviour
@@ -59,6 +61,8 @@ public class GroundAttackSpell : SpellBehaviour
     GroundAttackData spellData;
 
     private Vector3 endPos;
+
+    public override CardDeployLocation CardDeployLocation { get => CardDeployLocation.Limited ;}
 
     private void Start()
     {
@@ -87,28 +91,11 @@ public class SplashAreaAttackData
 
 public class SplashAreaAttackSpell : SpellBehaviour
 {
+    public override CardDeployLocation CardDeployLocation { get => CardDeployLocation.Any; }
+
     private void Start()
     {
         SplashAreaAttackData data = GetComponent<SpellCard>().SplashAreaAttackData;
-    }
-
-    public override void OnSpawn(Vector3 spawnPoint)
-    {
-
-    }
-}
-
-[Serializable]
-public class TowerTargetingAttackData
-{
-
-}
-
-public class TowerTargetingAttackSpell : SpellBehaviour
-{
-    private void Start()
-    {
-        TowerTargetingAttackData data = GetComponent<SpellCard>().TowerTargetingAttackData;
     }
 
     public override void OnSpawn(Vector3 spawnPoint)
@@ -125,7 +112,6 @@ public class SpellEditor : Editor
     SerializedProperty spellBehaviourTypeProp;
     SerializedProperty groundAttackDataProp;
     SerializedProperty splashAreaAttackDataProp;
-    SerializedProperty towerTargetingAttackDataProp;
 
     void OnEnable()
     {
@@ -134,7 +120,6 @@ public class SpellEditor : Editor
         spellBehaviourTypeProp = serializedObject.FindProperty("spellBehaviourType");
         groundAttackDataProp = serializedObject.FindProperty("groundAttackData");
         splashAreaAttackDataProp = serializedObject.FindProperty("splashAreaAttackData");
-        towerTargetingAttackDataProp = serializedObject.FindProperty("towerTargetingAttackData");
     }
 
     public override void OnInspectorGUI()
@@ -154,9 +139,6 @@ public class SpellEditor : Editor
                 break;
             case SpellBehaviourType.SplashAreaAttack:
                 EditorGUILayout.PropertyField(splashAreaAttackDataProp);
-                break;
-            case SpellBehaviourType.TowerTargetingAttack:
-                EditorGUILayout.PropertyField(towerTargetingAttackDataProp);
                 break;
         }
 
