@@ -21,6 +21,7 @@ public class SingleParticipantData
 
     public SingleParticipantData()
     {
+        RestrictionArea = new List<GameObject>();
         TowerList = new List<Tower>();
         CardContainer = new Dictionary<string, GameObject>();
     }

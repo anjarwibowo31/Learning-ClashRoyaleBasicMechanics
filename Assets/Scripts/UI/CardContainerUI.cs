@@ -19,8 +19,8 @@ public class CardContainerUI : MonoBehaviour
     // (DONE) BUAT LIISTENER UNTUK CARD SELECTION KE ACTION SYSTEM
 
     // BUAT UPDATE VISUAL
-
     // MASUKAN KE POOLING
+
     private void Awake()
     {
         if (Instance == null)

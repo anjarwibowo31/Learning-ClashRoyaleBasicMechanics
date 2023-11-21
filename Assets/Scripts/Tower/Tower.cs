@@ -19,7 +19,7 @@ public abstract class Tower : MonoBehaviour
     public event EventHandler OnTowerDamaged;
 
     public float Health { get { return health; } }
-    public Participant Participant { get { return participant; } }
+    public Participant Participant { get => participant; }
     public GameObject TowerArea { get => towerArea; set => towerArea = value; }
 
     [SerializeField] private float health;
@@ -33,12 +33,13 @@ public abstract class Tower : MonoBehaviour
     private void Awake()
     {
         towerCollider = GetComponent<Collider>();
+
+        ParticipantDataManager.Instance.ParticipantDictionary[this.participant].TowerList.Add(this);
+        ParticipantDataManager.Instance.ParticipantDictionary[this.participant].RestrictionArea.Add(towerArea);
     }
 
     public void Start()
     {
-        ParticipantDataManager.Instance.ParticipantDictionary[this.participant].TowerList.Add(this);
-        ParticipantDataManager.Instance.ParticipantDictionary[this.participant].RestrictionArea.Add(towerArea);
 
         foreach (MeshRenderer tower in towerFlag)
         {

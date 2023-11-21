@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Log Launcher
   manaCost: 3
+  cardDeployLocation: 1
   spellBehaviourType: 0
   groundAttackData:
     range: 10

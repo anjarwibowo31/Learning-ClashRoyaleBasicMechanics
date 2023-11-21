@@ -13,16 +13,16 @@ public class SpellCard : Card
     public override CardType CardType { get => cardType; }
     public override string CardName { get => cardName; }
     public override int ManaCost { get => manaCost; }
-    public override CardDeployLocation Type => cardDeployLocation;
+    public override CardDeployLocation CardDeployLocation => cardDeployLocation;
 
     [SerializeField] private string cardName;
     [SerializeField] private int manaCost;
 
+    [SerializeField] private CardDeployLocation cardDeployLocation;
     [SerializeField] private SpellBehaviourType spellBehaviourType;
     [SerializeField] private GroundAttackData groundAttackData;
     [SerializeField] private SplashAreaAttackData splashAreaAttackData;
 
-    protected CardDeployLocation cardDeployLocation;
     private const CardType cardType = CardType.Spell;
     private SpellBehaviour spellBehaviour;
 
@@ -37,21 +37,18 @@ public class SpellCard : Card
                 spellBehaviour = gameObject.AddComponent<SplashAreaAttackSpell>();
                 break;
         }
-
-        cardDeployLocation = spellBehaviour.CardDeployLocation;
     }
 }
 
 public abstract class SpellBehaviour : MonoBehaviour
 {
-    public abstract CardDeployLocation CardDeployLocation { get;}
     public abstract void OnSpawn(Vector3 spawnPoint);
 }
 
 [Serializable]
 public class GroundAttackData
 {
-    public int Range { get { return range; } set { range = value; } }
+    public int Range { get => range; set => range = value; }
 
     [SerializeField] private int range;
 }
@@ -61,8 +58,6 @@ public class GroundAttackSpell : SpellBehaviour
     GroundAttackData spellData;
 
     private Vector3 endPos;
-
-    public override CardDeployLocation CardDeployLocation { get => CardDeployLocation.Limited ;}
 
     private void Start()
     {
@@ -91,8 +86,6 @@ public class SplashAreaAttackData
 
 public class SplashAreaAttackSpell : SpellBehaviour
 {
-    public override CardDeployLocation CardDeployLocation { get => CardDeployLocation.Any; }
-
     private void Start()
     {
         SplashAreaAttackData data = GetComponent<SpellCard>().SplashAreaAttackData;
@@ -109,14 +102,16 @@ public class SpellEditor : Editor
 {
     SerializedProperty cardNameProp;
     SerializedProperty manaCostProp;
+    SerializedProperty cardDeployLocationProp;
+    SerializedProperty splashAreaAttackDataProp;
     SerializedProperty spellBehaviourTypeProp;
     SerializedProperty groundAttackDataProp;
-    SerializedProperty splashAreaAttackDataProp;
 
     void OnEnable()
     {
         cardNameProp = serializedObject.FindProperty("cardName");
         manaCostProp = serializedObject.FindProperty("manaCost");
+        cardDeployLocationProp = serializedObject.FindProperty("cardDeployLocation");
         spellBehaviourTypeProp = serializedObject.FindProperty("spellBehaviourType");
         groundAttackDataProp = serializedObject.FindProperty("groundAttackData");
         splashAreaAttackDataProp = serializedObject.FindProperty("splashAreaAttackData");
@@ -128,6 +123,7 @@ public class SpellEditor : Editor
 
         EditorGUILayout.PropertyField(cardNameProp);
         EditorGUILayout.PropertyField(manaCostProp);
+        EditorGUILayout.PropertyField(cardDeployLocationProp);
         EditorGUILayout.PropertyField(spellBehaviourTypeProp);
 
         SpellBehaviourType selectedType = (SpellBehaviourType)spellBehaviourTypeProp.enumValueIndex;
