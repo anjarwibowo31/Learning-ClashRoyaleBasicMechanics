@@ -2104,7 +2104,7 @@ GameObject:
   - component: {fileID: 846174061}
   - component: {fileID: 846174062}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: ManaSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3483,8 +3483,6 @@ MonoBehaviour:
     partyFlag: {fileID: 2100000, guid: 4b9184388501f364f9a6b5cb1ab56782, type: 2}
     cardOwned:
     - {fileID: 4110492595264335162, guid: 534e025973d5bbb499aa3fe1126602b4, type: 3}
-    - {fileID: 4110492595264335162, guid: 9c65c5140379b9c48ba131daae97d71b, type: 3}
-    - {fileID: 4110492595264335162, guid: cce4cd15e5a0c3340819c45230415497, type: 3}
   - partyName: 1
     partyFlag: {fileID: 2100000, guid: 6c2de629e84d77645a768b54c44665fb, type: 2}
     cardOwned:

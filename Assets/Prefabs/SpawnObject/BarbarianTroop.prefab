@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 644947493897193815}
   - component: {fileID: 644947493897193812}
   m_Layer: 0
-  m_Name: Barbarian Troop
+  m_Name: BarbarianTroop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

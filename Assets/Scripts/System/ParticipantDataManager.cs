@@ -22,10 +22,10 @@ public class SingleParticipantData
 
     public SingleParticipantData()
     {
-        RestrictionAreaList = new List<GameObject>();
-        TowerList = new List<Tower>();
-        CardContainerDictionary = new Dictionary<string, GameObject>();
-        DamageableList = new List<IDamageable>();
+        RestrictionAreaList = new();
+        TowerList = new();
+        CardContainerDictionary = new();
+        DamageableList = new();
     }
 }
 
@@ -33,8 +33,10 @@ public class ParticipantDataManager : MonoBehaviour
 {
     public static ParticipantDataManager Instance { get; private set; }
 
-    public Dictionary<Participant, SingleParticipantData> ParticipantDictionary { get; private set; } =
-    new Dictionary<Participant, SingleParticipantData>();
+    public event EventHandler OnDamageableRemoved;
+    public event EventHandler OnDamageableAdded;
+
+    public Dictionary<Participant, SingleParticipantData> ParticipantDictionary { get; private set; } = new();
 
     [SerializeField] private SingleParticipantData[] singleParticipantDataArray;
 
@@ -58,5 +60,17 @@ public class ParticipantDataManager : MonoBehaviour
                 participant.CardContainerDictionary.Add(card.GetComponent<Card>().CardName, card);
             }
         }
+    }
+
+    public void AddDamageable(IDamageable damageable, Participant participant)
+    {
+        OnDamageableAdded?.Invoke(this, EventArgs.Empty);
+        ParticipantDictionary[participant].DamageableList.Add(damageable);
+    }
+
+    public void RemoveDamageable(IDamageable damageable, Participant participant)
+    {
+        OnDamageableRemoved?.Invoke(this, EventArgs.Empty);
+        ParticipantDictionary[participant].DamageableList.Remove(damageable);
     }
 }

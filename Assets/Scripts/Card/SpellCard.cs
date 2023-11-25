@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class SpellCard : Card
 {
+    // Harus ada tag opposite dan ownSide untuk mencegah ally damage
     public SpellBehaviourType SpellBehaviourType { get => spellBehaviourType; set => spellBehaviourType = value; }
     public GroundAttackData GroundAttackData { get => groundAttackData; set => groundAttackData = value; }
     public SplashAreaAttackData SplashAreaAttackData { get => splashAreaAttackData; set => splashAreaAttackData = value; }

@@ -18,8 +18,8 @@ public abstract class Tower : MonoBehaviour, IDamageable
     public event EventHandler<TowerDestroyedEventArgs> OnTowerDestroyed;
     public event EventHandler OnTowerDamaged;
 
-    public float Health { get { return health; } }
-    public Participant Participant { get => participant; }
+    public float Health => health;
+    public Participant Participant => participant;
     public GameObject TowerArea { get => towerArea; set => towerArea = value; }
 
     [SerializeField] private float health;
@@ -34,13 +34,14 @@ public abstract class Tower : MonoBehaviour, IDamageable
     {
         towerCollider = GetComponent<Collider>();
 
-        ParticipantDataManager.Instance.ParticipantDictionary[this.participant].TowerList.Add(this);
-        ParticipantDataManager.Instance.ParticipantDictionary[this.participant].RestrictionAreaList.Add(towerArea);
+        ParticipantDataManager.Instance.ParticipantDictionary[participant].TowerList.Add(this);
+        ParticipantDataManager.Instance.ParticipantDictionary[participant].RestrictionAreaList.Add(towerArea);
+
+        ParticipantDataManager.Instance.AddDamageable(this, participant);
     }
 
     public void Start()
     {
-
         foreach (MeshRenderer tower in towerFlag)
         {
             tower.material = ParticipantDataManager.Instance.ParticipantDictionary[participant].partyFlag;
@@ -60,11 +61,18 @@ public abstract class Tower : MonoBehaviour, IDamageable
 
     public virtual void GetDestroyed()
     {
-        TowerDestroyedEventArgs eventArgs = new TowerDestroyedEventArgs(this);
+        TowerDestroyedEventArgs eventArgs = new(this);
         OnTowerDestroyed?.Invoke(this, eventArgs);
 
         towerVisual.SetActive(false);
         towerArea.SetActive(false);
         towerCollider.enabled = false;
+
+        ParticipantDataManager.Instance.RemoveDamageable(this, participant);
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
     }
 }
