@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Tower : MonoBehaviour
+public abstract class Tower : MonoBehaviour, IDamageable
 {
     public class TowerDestroyedEventArgs : EventArgs
     {
@@ -35,7 +35,7 @@ public abstract class Tower : MonoBehaviour
         towerCollider = GetComponent<Collider>();
 
         ParticipantDataManager.Instance.ParticipantDictionary[this.participant].TowerList.Add(this);
-        ParticipantDataManager.Instance.ParticipantDictionary[this.participant].RestrictionArea.Add(towerArea);
+        ParticipantDataManager.Instance.ParticipantDictionary[this.participant].RestrictionAreaList.Add(towerArea);
     }
 
     public void Start()

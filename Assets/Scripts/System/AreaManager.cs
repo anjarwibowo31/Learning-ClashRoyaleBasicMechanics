@@ -29,8 +29,8 @@ public class AreaManager : MonoBehaviour
 
     private void Start()
     {
-        participantAreaDictionary.Add(Participant.Player, ParticipantDataManager.Instance.ParticipantDictionary[Participant.Player].RestrictionArea);
-        participantAreaDictionary.Add(Participant.Enemy, ParticipantDataManager.Instance.ParticipantDictionary[Participant.Enemy].RestrictionArea);
+        participantAreaDictionary.Add(Participant.Player, ParticipantDataManager.Instance.ParticipantDictionary[Participant.Player].RestrictionAreaList);
+        participantAreaDictionary.Add(Participant.Enemy, ParticipantDataManager.Instance.ParticipantDictionary[Participant.Enemy].RestrictionAreaList);
     }
 
     // For Test

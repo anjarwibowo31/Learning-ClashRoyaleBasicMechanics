@@ -37,7 +37,7 @@ public class CardContainerUI : MonoBehaviour
     {
         participantData = ParticipantDataManager.Instance.ParticipantDictionary[Participant.Player];
 
-        foreach (GameObject gameObject in participantData.CardOwned)
+        foreach (GameObject gameObject in participantData.CardOwnedArray)
         {
             cardOwnedList.Add(gameObject);
         }

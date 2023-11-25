@@ -8,8 +8,10 @@ public class ActionSystem : MonoBehaviour
 
     private Participant ownSide = Participant.Player;
     private Participant opposite;
+    private Camera mainCamera;
 
     [SerializeField] private Card cardSelected;
+    [SerializeField] private LayerMask areaLayer;
 
     private void Awake()
     {
@@ -36,7 +38,7 @@ public class ActionSystem : MonoBehaviour
     {
         foreach (SingleParticipantData singleParticipantData in ParticipantDataManager.Instance.ParticipantDictionary.Values)
         {
-            foreach (GameObject gameObject in singleParticipantData.RestrictionArea)
+            foreach (GameObject gameObject in singleParticipantData.RestrictionAreaList)
             {
                 gameObject.SetActive(false);
             }
@@ -46,6 +48,13 @@ public class ActionSystem : MonoBehaviour
         {
 
         }
+
+        mainCamera = Camera.main;
+    }
+
+    private void Update()
+    {
+        DeployCard();
     }
 
     public void SetSelectedCard(Card cardSelected)
@@ -53,6 +62,28 @@ public class ActionSystem : MonoBehaviour
         this.cardSelected = cardSelected;
 
         AreaManager.Instance.UpdateArea(cardSelected, opposite);
+    }
+
+    public void DeployCard()
+    {
+        if (GameplaySystem.Instance.GetCurrentState() == GameState.Battle)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+                Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, areaLayer);
+
+                if (hitInfo.transform.CompareTag("DropArea"))
+                {
+                    //DeployCard(Card selectedcard)
+                    // TEST
+                    GameObject g = ParticipantDataManager.Instance.ParticipantDictionary[Participant.Player].CardOwnedArray[0];
+                    Instantiate(g, hitInfo.point, Quaternion.identity);
+
+                }
+            }
+        }
     }
 
     public Card GetSelectedCard()

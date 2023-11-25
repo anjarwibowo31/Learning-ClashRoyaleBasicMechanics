@@ -49,8 +49,10 @@ public abstract class SpellBehaviour : MonoBehaviour
 public class GroundAttackData
 {
     public int Range { get => range; set => range = value; }
+    public float Damage { get => damage;}
 
     [SerializeField] private int range;
+    [SerializeField] private float damage;
 }
 
 public class GroundAttackSpell : SpellBehaviour
@@ -58,11 +60,15 @@ public class GroundAttackSpell : SpellBehaviour
     GroundAttackData spellData;
 
     private Vector3 endPos;
+    private Collider spellCollider;
+
+    float destroyTime = 0.5f;
 
     private void Start()
     {
         spellData = GetComponent<SpellCard>().GroundAttackData;
         OnSpawn(transform.position);
+        spellCollider = GetComponent<Collider>();
     }
 
     public override void OnSpawn(Vector3 spawnPoint)
@@ -74,7 +80,23 @@ public class GroundAttackSpell : SpellBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, endPos, Time.deltaTime * 4.0f);
+
+        transform.position = Vector3.Lerp(transform.position, endPos, Time.deltaTime * 1.0f);
+
+        if (Vector3.Distance(transform.position, endPos) <= 0.1)
+        {
+            destroyTime -= Time.deltaTime;
+            if (destroyTime < 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        other.gameObject.TryGetComponent<IDamageable>(out IDamageable damagable);
+        damagable.GetDamage(spellData.Damage);
     }
 }
 

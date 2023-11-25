@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardNameTag: {fileID: 5641653970964043829}
   selectedImage: {fileID: 5641653971318107928}
-  card: {fileID: 0}
+  card: {fileID: 8402983442352236217, guid: 534e025973d5bbb499aa3fe1126602b4, type: 3}
   cardButton: {fileID: 5641653970355373195}
   manaCostTag: {fileID: 4314764321560597776}
 --- !u!1 &5641653970964043831
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3726415, g: 0.5817611, b: 1, a: 1}
+  m_Color: {r: 0.4009434, g: 0.43769515, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -373,7 +373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.25178, g: 0.52924764, b: 0.7735849, a: 1}
+  m_Color: {r: 0.0995016, g: 0.30826527, b: 0.49056602, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

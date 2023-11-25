@@ -6,13 +6,14 @@ using UnityEngine;
 [Serializable]
 public class SingleParticipantData
 {
-    public GameObject[] CardOwned { get => cardOwned; set => cardOwned = value; }
-    public List<GameObject> RestrictionArea { get; set; }
+    public Dictionary<string, GameObject> CardContainerDictionary { get; private set; }
+    public List<GameObject> RestrictionAreaList { get; set; }
+    public List<IDamageable> DamageableList { get; set; }
     public List<Tower> TowerList { get; private set; }
+    public GameObject[] CardOwnedArray { get => cardOwned; set => cardOwned = value; }
     public int Score { get; set; } = 0;
     public float TotalMaxHealth { get; set; }
     public float TotalCurrentHealth { get; set; }
-    public Dictionary<string, GameObject> CardContainer { get; private set; }
 
     public Participant partyName;
     public Material partyFlag;
@@ -21,9 +22,10 @@ public class SingleParticipantData
 
     public SingleParticipantData()
     {
-        RestrictionArea = new List<GameObject>();
+        RestrictionAreaList = new List<GameObject>();
         TowerList = new List<Tower>();
-        CardContainer = new Dictionary<string, GameObject>();
+        CardContainerDictionary = new Dictionary<string, GameObject>();
+        DamageableList = new List<IDamageable>();
     }
 }
 
@@ -51,9 +53,9 @@ public class ParticipantDataManager : MonoBehaviour
         {
             ParticipantDictionary.Add(participant.partyName, participant);
 
-            foreach (GameObject card in participant.CardOwned)
+            foreach (GameObject card in participant.CardOwnedArray)
             {
-                participant.CardContainer.Add(card.GetComponent<Card>().CardName, card);
+                participant.CardContainerDictionary.Add(card.GetComponent<Card>().CardName, card);
             }
         }
     }
