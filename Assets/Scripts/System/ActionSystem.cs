@@ -6,8 +6,8 @@ public class ActionSystem : MonoBehaviour
 {
     public static ActionSystem Instance { get; private set; }
 
-    private Participant ownSide = Participant.Player;
-    private Participant opposite;
+    private Participant participant = Participant.Player;
+    private Participant oppositeParticipant;
     private Camera mainCamera;
 
     [SerializeField] private Card cardSelected;
@@ -24,13 +24,13 @@ public class ActionSystem : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        if (ownSide == Participant.Player)
+        if (participant == Participant.Player)
         {
-            opposite = Participant.Enemy;
+            oppositeParticipant = Participant.Enemy;
         }
         else
         {
-            opposite = Participant.Player;
+            oppositeParticipant = Participant.Player;
         }
     }
 
@@ -61,7 +61,7 @@ public class ActionSystem : MonoBehaviour
     {
         this.cardSelected = cardSelected;
 
-        AreaManager.Instance.UpdateArea(cardSelected, opposite);
+        AreaManager.Instance.UpdateArea(cardSelected, oppositeParticipant);
     }
 
     public void DeployCard()
@@ -80,7 +80,6 @@ public class ActionSystem : MonoBehaviour
                     // TEST
                     GameObject g = ParticipantDataManager.Instance.ParticipantDictionary[Participant.Player].CardOwnedArray[0];
                     Instantiate(g, hitInfo.point, Quaternion.identity);
-
                 }
             }
         }

@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TroopObject : MonoBehaviour, IDamageable
 {
-    private Participant ownSide = Participant.Player;
-    private Participant opposite;
+    public Participant Participant => throw new System.NotImplementedException();
+
+    private Participant participant = Participant.Player;
+    private Participant oppositeParticipant;
 
     private List<IDamageable> enemyDamageableList = new();
 
@@ -13,60 +16,69 @@ public class TroopObject : MonoBehaviour, IDamageable
 
     private Transform target;
 
-    public Participant Participant => throw new System.NotImplementedException();
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float shootingRange;
 
     private void Awake()
     {
-        if (ownSide == Participant.Player)
+        if (participant == Participant.Player)
         {
-            opposite = Participant.Enemy;
+            oppositeParticipant = Participant.Enemy;
         }
         else
         {
-            opposite = Participant.Player;
+            oppositeParticipant = Participant.Player;
         }
 
-        ParticipantDataManager.Instance.ParticipantDictionary[ownSide].DamageableList.Add(this);
+        ParticipantDataManager.Instance.ParticipantDictionary[participant].DamageableList.Add(this);
 
-        thisParticipantData = ParticipantDataManager.Instance.ParticipantDictionary[ownSide];
+        thisParticipantData = ParticipantDataManager.Instance.ParticipantDictionary[participant];
     }
 
     private void Start()
     {
         ParticipantDataManager.Instance.OnDamageableRemoved += ParticipantDataManager_OnDamageableRemoved;
-        enemyDamageableList = ParticipantDataManager.Instance.ParticipantDictionary[opposite].DamageableList;
+        enemyDamageableList = ParticipantDataManager.Instance.ParticipantDictionary[oppositeParticipant].DamageableList;
 
-        // dapatkan semua data game object dari musuh
-        // kalkulasi game object dari musuh
-        // Harus ada tag opposite dan ownSide untuk mencegah ally damage
-
-        target = FindTarget();
+        FindTarget();
     }
 
     private void Update()
     {
+        if (target != null)
+        {
+            if (Vector3.Distance(transform.position, target.position) > shootingRange)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, target.position, Time.deltaTime * moveSpeed);
+            }
+            else
+            {
+                // instantiate object dan tembak ke target
+            }
+        }
     }
-
     public void ParticipantDataManager_OnDamageableRemoved(object sender, System.EventArgs e)
     {
-        target = FindTarget();
+        FindTarget();
     }
 
-    private Transform FindTarget()
+    private void FindTarget()
     {
         float nearestDistance = float.MaxValue;
 
-        foreach (IDamageable damageable in enemyDamageableList)
+        if (enemyDamageableList.Count > 0)
         {
-            Vector3 oppPos = damageable.GetTransform().position;
-            float distance = Vector3.Distance(oppPos, transform.position);
-            if (distance < nearestDistance)
+            foreach (IDamageable damageable in enemyDamageableList)
             {
-                nearestDistance = distance;
-                return damageable.GetTransform();
+                Vector3 oppPos = damageable.GetTransform().position;
+                float distance = Vector3.Distance(oppPos, transform.position);
+                if (distance < nearestDistance)
+                {
+                    nearestDistance = distance;
+                    target = damageable.GetTransform();
+                }
             }
         }
-        return null;
     }
 
     public void GetDamage(float damage)

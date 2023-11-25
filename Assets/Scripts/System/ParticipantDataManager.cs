@@ -64,13 +64,13 @@ public class ParticipantDataManager : MonoBehaviour
 
     public void AddDamageable(IDamageable damageable, Participant participant)
     {
-        OnDamageableAdded?.Invoke(this, EventArgs.Empty);
         ParticipantDictionary[participant].DamageableList.Add(damageable);
+        OnDamageableAdded?.Invoke(this, EventArgs.Empty);
     }
 
     public void RemoveDamageable(IDamageable damageable, Participant participant)
     {
-        OnDamageableRemoved?.Invoke(this, EventArgs.Empty);
         ParticipantDictionary[participant].DamageableList.Remove(damageable);
+        OnDamageableRemoved?.Invoke(this, EventArgs.Empty);
     }
 }

@@ -61,14 +61,13 @@ public abstract class Tower : MonoBehaviour, IDamageable
 
     public virtual void GetDestroyed()
     {
+        ParticipantDataManager.Instance.RemoveDamageable(this, participant);
         TowerDestroyedEventArgs eventArgs = new(this);
         OnTowerDestroyed?.Invoke(this, eventArgs);
 
         towerVisual.SetActive(false);
         towerArea.SetActive(false);
         towerCollider.enabled = false;
-
-        ParticipantDataManager.Instance.RemoveDamageable(this, participant);
     }
 
     public Transform GetTransform()
