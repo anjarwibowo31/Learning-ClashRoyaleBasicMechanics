@@ -2,26 +2,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class TroopObject : MonoBehaviour, IDamageable
+public class TroopObject : BaseSpawnObject, IDamageable
 {
-    public Participant Participant => throw new System.NotImplementedException();
-
-    private Participant participant = Participant.Player;
-    private Participant oppositeParticipant;
+    public float Health => health;
 
     private List<IDamageable> enemyDamageableList = new();
-
     private SingleParticipantData thisParticipantData;
-
     private Transform target;
+    private IDamageable targetScript;
+    private Rigidbody rb;
+    private Participant oppositeParticipant;
+    private Animator animator;
 
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float shootingRange;
+    [SerializeField] private float health;
+    [SerializeField] private float attackRange;
 
     private void Awake()
     {
-        if (participant == Participant.Player)
+        if (Participant == Participant.Player)
         {
             oppositeParticipant = Participant.Enemy;
         }
@@ -30,13 +30,14 @@ public class TroopObject : MonoBehaviour, IDamageable
             oppositeParticipant = Participant.Player;
         }
 
-        ParticipantDataManager.Instance.ParticipantDictionary[participant].DamageableList.Add(this);
+        ParticipantDataManager.Instance.ParticipantDictionary[Participant].DamageableList.Add(this);
 
-        thisParticipantData = ParticipantDataManager.Instance.ParticipantDictionary[participant];
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         ParticipantDataManager.Instance.OnDamageableRemoved += ParticipantDataManager_OnDamageableRemoved;
         enemyDamageableList = ParticipantDataManager.Instance.ParticipantDictionary[oppositeParticipant].DamageableList;
 
@@ -45,20 +46,28 @@ public class TroopObject : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        rb.velocity = Vector3.zero;
+
         if (target != null)
         {
-            if (Vector3.Distance(transform.position, target.position) > shootingRange)
+            Vector3 moveDirection = (target.position - transform.position).normalized;
+            if (Vector3.Distance(transform.position, target.position) > attackRange)
             {
                 transform.position = Vector3.MoveTowards(transform.position, target.position, Time.deltaTime * moveSpeed);
+                transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * 5f);
+
+                animator.SetBool("IsAttacking", false);
             }
             else
             {
-                // instantiate object dan tembak ke target
+                animator.SetBool("IsAttacking", true);
             }
         }
     }
+
     public void ParticipantDataManager_OnDamageableRemoved(object sender, System.EventArgs e)
     {
+        animator.SetBool("IsAttacking", false);
         FindTarget();
     }
 
@@ -76,6 +85,7 @@ public class TroopObject : MonoBehaviour, IDamageable
                 {
                     nearestDistance = distance;
                     target = damageable.GetTransform();
+                    targetScript = damageable;
                 }
             }
         }
@@ -83,11 +93,17 @@ public class TroopObject : MonoBehaviour, IDamageable
 
     public void GetDamage(float damage)
     {
-        throw new System.NotImplementedException();
+        health -= damage;
     }
 
     public Transform GetTransform()
     {
         return transform;
+    }
+
+    // Animation Event
+    public void Attack()
+    {
+        targetScript.GetDamage(attack);
     }
 }

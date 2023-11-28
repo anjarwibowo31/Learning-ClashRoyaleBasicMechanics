@@ -7,19 +7,11 @@ public class CardContainerUI : MonoBehaviour
 {
     public static CardContainerUI Instance { get; private set; }
 
-    [SerializeField] private GameObject cardButtonUIObject;
-
-    private List<GameObject> cardOwnedList = new List<GameObject>();
+    private List<CardSO> cardOwnedList = new List<CardSO>();
     private List<CardButtonUI> cardButtonList = new List<CardButtonUI>();
     private SingleParticipantData participantData;
 
-    // (DONE) CALL SEMUA CARD OWNED BY PLAYER
-    // (DONE) BUAT UI OBJECT UNTUK TIAP CARD
-    // (DONE) SET TIAP KOMPONEN DALAM CARD UI --> CALL METHOD DARI CARD BUTTON UI
-    // (DONE) BUAT LIISTENER UNTUK CARD SELECTION KE ACTION SYSTEM
-
-    // BUAT UPDATE VISUAL
-    // MASUKAN KE POOLING
+    [SerializeField] private GameObject cardButtonUIObject;
 
     private void Awake()
     {
@@ -37,20 +29,20 @@ public class CardContainerUI : MonoBehaviour
     {
         participantData = ParticipantDataManager.Instance.ParticipantDictionary[Participant.Player];
 
-        foreach (GameObject gameObject in participantData.CardOwnedArray)
+        foreach (CardSO card in participantData.CardOwnedArray)
         {
-            cardOwnedList.Add(gameObject);
+            cardOwnedList.Add(card);
         }
 
-        foreach (GameObject gameObject in cardOwnedList)
+        foreach (CardSO card in cardOwnedList)
         {
             GameObject g = Instantiate(cardButtonUIObject, this.transform);
-            g.GetComponent<CardButtonUI>().SetCardButton(gameObject.GetComponent<Card>());
+            g.GetComponent<CardButtonUI>().SetCardButton(card);
             cardButtonList.Add(g.GetComponent<CardButtonUI>());
         }
     }
 
-    public void UpdateCardSelected(Card card)
+    public void UpdateCardSelected(CardSO card)
     {
         foreach (CardButtonUI cardButtonUI in cardButtonList)
         {

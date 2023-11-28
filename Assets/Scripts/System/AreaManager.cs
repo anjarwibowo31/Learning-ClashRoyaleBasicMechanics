@@ -33,13 +33,7 @@ public class AreaManager : MonoBehaviour
         participantAreaDictionary.Add(Participant.Enemy, ParticipantDataManager.Instance.ParticipantDictionary[Participant.Enemy].RestrictionAreaList);
     }
 
-    // For Test
-    private void Update()
-    {
-        UpdateArea(ActionSystem.Instance.GetSelectedCard(), Participant.Enemy);
-    }
-
-    public void UpdateArea(Card cardSelected, Participant opposite)
+    public void UpdateArea(CardSO cardSelected, Participant opposite)
     {
         if (cardSelected == null)
         {

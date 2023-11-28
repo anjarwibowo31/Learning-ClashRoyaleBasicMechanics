@@ -6,22 +6,25 @@ using UnityEngine;
 [Serializable]
 public class SingleParticipantData
 {
-    public Dictionary<string, GameObject> CardContainerDictionary { get; private set; }
+    public Dictionary<string, CardSO> CardContainerDictionary { get; private set; }
     public List<GameObject> RestrictionAreaList { get; set; }
     public List<IDamageable> DamageableList { get; set; }
     public List<Tower> TowerList { get; private set; }
-    public GameObject[] CardOwnedArray { get => cardOwned; set => cardOwned = value; }
+    public CardSO[] CardOwnedArray { get => cardOwned; set => cardOwned = value; }
     public int Score { get; set; } = 0;
     public float TotalMaxHealth { get; set; }
     public float TotalCurrentHealth { get; set; }
+    public float ElixirAmount { get; set; }
 
     public Participant partyName;
     public Material partyFlag;
 
-    [SerializeField] private GameObject[] cardOwned;
+    [SerializeField] private CardSO[] cardOwned;
+    [SerializeField] private float startingElixir;
 
     public SingleParticipantData()
     {
+        ElixirAmount = startingElixir;
         RestrictionAreaList = new();
         TowerList = new();
         CardContainerDictionary = new();
@@ -38,6 +41,8 @@ public class ParticipantDataManager : MonoBehaviour
 
     public Dictionary<Participant, SingleParticipantData> ParticipantDictionary { get; private set; } = new();
 
+    const float maxElixir = 10;
+
     [SerializeField] private SingleParticipantData[] singleParticipantDataArray;
 
     private void Awake()
@@ -51,13 +56,13 @@ public class ParticipantDataManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        foreach (var participant in singleParticipantDataArray)
+        foreach (SingleParticipantData participant in singleParticipantDataArray)
         {
             ParticipantDictionary.Add(participant.partyName, participant);
 
-            foreach (GameObject card in participant.CardOwnedArray)
+            foreach (CardSO card in participant.CardOwnedArray)
             {
-                participant.CardContainerDictionary.Add(card.GetComponent<Card>().CardName, card);
+                participant.CardContainerDictionary.Add(card.CardName, card);
             }
         }
     }

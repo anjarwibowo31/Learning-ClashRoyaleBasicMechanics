@@ -2,16 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActionSystem : MonoBehaviour
+public class PlayerActionSystem : MonoBehaviour
 {
-    public static ActionSystem Instance { get; private set; }
+    public static PlayerActionSystem Instance { get; private set; }
+
+    public float ElixirAmount { get; set; }
+
+    public const float maxElixirAmount = 10;
 
     private Participant participant = Participant.Player;
     private Participant oppositeParticipant;
     private Camera mainCamera;
 
-    [SerializeField] private Card cardSelected;
+    [SerializeField] private CardSO cardSelected;
     [SerializeField] private LayerMask areaLayer;
+    [SerializeField] private float startingElixir;
 
     private void Awake()
     {
@@ -44,20 +49,33 @@ public class ActionSystem : MonoBehaviour
             }
         }
 
-        if (cardSelected == null)
-        {
-
-        }
-
         mainCamera = Camera.main;
+
+        ElixirAmount = startingElixir;
     }
 
     private void Update()
     {
-        DeployCard();
+        if (GameplaySystem.Instance.GameState == GameState.Battle)
+        {
+            DeployCard();
+            ElixirManager();
+        }
     }
 
-    public void SetSelectedCard(Card cardSelected)
+    private void ElixirManager()
+    {
+        if (ElixirAmount < maxElixirAmount)
+        {
+            ElixirAmount += Time.deltaTime;
+        }
+        else
+        {
+            ElixirAmount = maxElixirAmount;
+        }
+    }
+
+    public void SetSelectedCard(CardSO cardSelected)
     {
         this.cardSelected = cardSelected;
 
@@ -74,18 +92,19 @@ public class ActionSystem : MonoBehaviour
 
                 Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, areaLayer);
 
-                if (hitInfo.transform.CompareTag("DropArea"))
+                if (hitInfo.transform.CompareTag("DropArea") && cardSelected != null)
                 {
-                    //DeployCard(Card selectedcard)
-                    // TEST
-                    GameObject g = ParticipantDataManager.Instance.ParticipantDictionary[Participant.Player].CardOwnedArray[0];
-                    Instantiate(g, hitInfo.point, Quaternion.identity);
+                    if (ElixirAmount > cardSelected.ElixirCost)
+                    {
+                        ElixirAmount -= cardSelected.ElixirCost;
+                        Instantiate(cardSelected.CardObject, hitInfo.point, Quaternion.identity);
+                    }
                 }
             }
         }
     }
 
-    public Card GetSelectedCard()
+    public CardSO GetSelectedCard()
     {
         return cardSelected;
     }
