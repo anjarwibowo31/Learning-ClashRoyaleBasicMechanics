@@ -5,19 +5,6 @@ using UnityEngine;
 
 public abstract class Tower : MonoBehaviour, IDamageable
 {
-    public class TowerDestroyedEventArgs : EventArgs
-    {
-        public Tower DestroyedTower { get; private set; }
-
-        public TowerDestroyedEventArgs(Tower destroyedTower)
-        {
-            DestroyedTower = destroyedTower;
-        }
-    }
-
-    public event EventHandler<TowerDestroyedEventArgs> OnTowerDestroyed;
-    public event EventHandler OnTowerDamaged;
-
     public float Health => health;
     public Participant Participant => participant;
     public GameObject TowerArea { get => towerArea; set => towerArea = value; }
@@ -29,7 +16,10 @@ public abstract class Tower : MonoBehaviour, IDamageable
     [SerializeField] private Participant participant;
 
     protected Collider towerCollider;
-    
+
+    public event EventHandler<IDamageable.TowerDestroyedEventArgs> OnDamageableDestroyed;
+    public event EventHandler OnDamageableDamaged;
+
     private void Awake()
     {
         towerCollider = GetComponent<Collider>();
@@ -38,6 +28,8 @@ public abstract class Tower : MonoBehaviour, IDamageable
         ParticipantDataManager.Instance.ParticipantDictionary[participant].RestrictionAreaList.Add(towerArea);
 
         ParticipantDataManager.Instance.AddDamageable(this, participant);
+
+
     }
 
     public void Start()
@@ -46,12 +38,14 @@ public abstract class Tower : MonoBehaviour, IDamageable
         {
             tower.material = ParticipantDataManager.Instance.ParticipantDictionary[participant].partyFlag;
         }
+
+        OnDamageableDestroyed += GameplaySystem.Instance.Tower_OnTowerDestroyed;
     }
 
     public virtual void GetDamage(float damageAmount)
     {
         health -= damageAmount;
-        OnTowerDamaged?.Invoke(this, EventArgs.Empty);
+        OnDamageableDamaged?.Invoke(this, EventArgs.Empty);
         
         if (health <= 0)
         {
@@ -62,8 +56,8 @@ public abstract class Tower : MonoBehaviour, IDamageable
     public virtual void GetDestroyed()
     {
         ParticipantDataManager.Instance.RemoveDamageable(this, participant);
-        TowerDestroyedEventArgs eventArgs = new(this);
-        OnTowerDestroyed?.Invoke(this, eventArgs);
+        IDamageable.TowerDestroyedEventArgs eventArgs = new(this);
+        OnDamageableDestroyed?.Invoke(this, eventArgs);
 
         towerVisual.SetActive(false);
         towerArea.SetActive(false);

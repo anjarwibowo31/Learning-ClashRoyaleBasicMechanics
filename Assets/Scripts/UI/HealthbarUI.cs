@@ -6,28 +6,28 @@ public class HealthbarUI : MonoBehaviour
 {
     private Slider healthbar;
 
-    private Tower tower;
+    private IDamageable damageableObject;
 
     private void Start()
     {
-        tower = GetComponentInParent<Tower>();
+        damageableObject = GetComponentInParent<IDamageable>();
         healthbar = GetComponentInChildren<Slider>();
 
-        tower.OnTowerDamaged += Tower_OnTowerDamaged;
-        tower.OnTowerDestroyed += Tower_OnTowerDestroyed;
+        damageableObject.OnDamageableDamaged += DamageableObject_OnDamageableDamaged; ;
+        damageableObject.OnDamageableDestroyed += DamageableObject_OnDamageableDestroyed;
 
         healthbar.gameObject.SetActive(false);
-        healthbar.maxValue = tower.Health;
+        healthbar.maxValue = damageableObject.Health;
     }
 
-    private void Tower_OnTowerDamaged(object sender, System.EventArgs e)
+    private void DamageableObject_OnDamageableDestroyed(object sender, IDamageable.TowerDestroyedEventArgs e)
+    {
+        healthbar.gameObject.SetActive(false);
+    }
+
+    private void DamageableObject_OnDamageableDamaged(object sender, System.EventArgs e)
     {
         healthbar.gameObject.SetActive(true);
-        healthbar.value = tower.Health;
-    }
-
-    private void Tower_OnTowerDestroyed(object sender, Tower.TowerDestroyedEventArgs e)
-    {
-        healthbar.gameObject.SetActive(false);
+        healthbar.value = damageableObject.Health;
     }
 }

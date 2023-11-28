@@ -15,9 +15,13 @@ public class TroopObject : BaseSpawnObject, IDamageable
     private Rigidbody rb;
     private Participant oppositeParticipant;
     private Animator animator;
+    private bool isMoving = true;
 
     [SerializeField] private float health;
     [SerializeField] private float attackRange;
+
+    public event EventHandler<IDamageable.TowerDestroyedEventArgs> OnDamageableDestroyed;
+    public event EventHandler OnDamageableDamaged;
 
     private void Awake()
     {
@@ -51,16 +55,27 @@ public class TroopObject : BaseSpawnObject, IDamageable
         if (target != null)
         {
             Vector3 moveDirection = (target.position - transform.position).normalized;
-            if (Vector3.Distance(transform.position, target.position) > attackRange)
+            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * 5f);
+
+            foreach (Collider collider in Physics.OverlapSphere(transform.position, attackRange))
+            {
+                if (collider.transform == target.transform)
+                {
+                    isMoving = false;
+                    animator.SetBool("IsAttacking", true);
+                    return;
+                }
+                else if (target != null)
+                {
+                    isMoving = true;
+                }
+            }
+
+            if (isMoving)
             {
                 transform.position = Vector3.MoveTowards(transform.position, target.position, Time.deltaTime * moveSpeed);
-                transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * 5f);
 
                 animator.SetBool("IsAttacking", false);
-            }
-            else
-            {
-                animator.SetBool("IsAttacking", true);
             }
         }
     }
@@ -89,6 +104,10 @@ public class TroopObject : BaseSpawnObject, IDamageable
                 }
             }
         }
+        else
+        {
+            target = null;
+        }
     }
 
     public void GetDamage(float damage)
@@ -105,5 +124,11 @@ public class TroopObject : BaseSpawnObject, IDamageable
     public void Attack()
     {
         targetScript.GetDamage(attack);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.color = Color.yellow;
     }
 }

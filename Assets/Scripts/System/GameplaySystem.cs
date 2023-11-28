@@ -17,7 +17,6 @@ public class GameplaySystem : MonoBehaviour
 
     public GameState GameState => gameState;
 
-
     // Timer
     [SerializeField][Tooltip("in seconds")] private float battleTime;
     [SerializeField] private float loadingTime = 5;
@@ -87,7 +86,7 @@ public class GameplaySystem : MonoBehaviour
     //    }
     //}
 
-    private void Tower_OnTowerDestroyed(object sender, Tower.TowerDestroyedEventArgs e)
+    public void Tower_OnTowerDestroyed(object sender, IDamageable.TowerDestroyedEventArgs e)
     {
         for (int i = 0; i <= playerData.TowerList.Count - 1; i++)
         {
