@@ -22,9 +22,10 @@ public class Testing : MonoBehaviour
 
                 Physics.Raycast(ray, out RaycastHit hitInfo);
 
-                if (hitInfo.transform.TryGetComponent<Tower>(out Tower tower))
+                if (hitInfo.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
                 {
-                    tower.GetDamage(attackAmount);
+                    print(damageable.GetTransform().name);
+                    damageable.GetDamage(attackAmount);
                 }
             }
         }

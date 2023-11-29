@@ -10,7 +10,7 @@ public class PlayerActionSystem : MonoBehaviour
 
     public const float maxElixirAmount = 10;
 
-    private Participant participant = Participant.Player;
+    [SerializeField] private Participant participant;
     private Participant oppositeParticipant;
     private Camera mainCamera;
 
@@ -97,7 +97,12 @@ public class PlayerActionSystem : MonoBehaviour
                     if (ElixirAmount > cardSelected.ElixirCost)
                     {
                         ElixirAmount -= cardSelected.ElixirCost;
-                        Instantiate(cardSelected.CardObject, hitInfo.point, Quaternion.identity);
+
+                        GameObject gameObject = ParticipantDataManager.Instance.ParticipantDictionary[participant].SpawnObjectDictionary[cardSelected];
+
+                        GameObject spawnObject = Instantiate(gameObject, hitInfo.point, Quaternion.identity);
+                        spawnObject.SetActive(true);
+
                     }
                 }
             }

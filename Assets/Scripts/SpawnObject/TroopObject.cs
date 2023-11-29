@@ -8,8 +8,10 @@ public class TroopObject : BaseSpawnObject, IDamageable
 {
     public float Health => health;
 
+    public Participant Participant { get => participant; set => participant = value; }
+
+    private Participant participant;
     private List<IDamageable> enemyDamageableList = new();
-    private SingleParticipantData thisParticipantData;
     private Transform target;
     private IDamageable targetScript;
     private Rigidbody rb;
@@ -23,26 +25,35 @@ public class TroopObject : BaseSpawnObject, IDamageable
     public event EventHandler<IDamageable.TowerDestroyedEventArgs> OnDamageableDestroyed;
     public event EventHandler OnDamageableDamaged;
 
-    private void Awake()
+    public void SetPartyAndFlag(Participant participant)
+    {
+        Participant = participant;
+
+        foreach (MeshRenderer meshRenderer in objectFlag)
+        {
+            meshRenderer.material = ParticipantDataManager.Instance.ParticipantDictionary[participant].partyFlag;
+        }
+    }
+
+
+    private void Start()
     {
         if (Participant == Participant.Player)
         {
             oppositeParticipant = Participant.Enemy;
         }
-        else
+        else if (Participant == Participant.Enemy)
         {
             oppositeParticipant = Participant.Player;
         }
 
-        ParticipantDataManager.Instance.ParticipantDictionary[Participant].DamageableList.Add(this);
-
         rb = GetComponent<Rigidbody>();
-    }
 
-    private void Start()
-    {
-        animator = GetComponent<Animator>();
+        ParticipantDataManager.Instance.AddDamageable(this, Participant);
+
         ParticipantDataManager.Instance.OnDamageableRemoved += ParticipantDataManager_OnDamageableRemoved;
+
+        animator = GetComponent<Animator>();
         enemyDamageableList = ParticipantDataManager.Instance.ParticipantDictionary[oppositeParticipant].DamageableList;
 
         FindTarget();
@@ -113,6 +124,23 @@ public class TroopObject : BaseSpawnObject, IDamageable
     public void GetDamage(float damage)
     {
         health -= damage;
+
+        if (health <= 0)
+        {
+            GetDestroyed();
+        }
+
+        OnDamageableDamaged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void GetDestroyed()
+    {
+        ParticipantDataManager.Instance.OnDamageableRemoved -= ParticipantDataManager_OnDamageableRemoved;
+
+        ParticipantDataManager.Instance.RemoveDamageable(this, Participant);
+
+        OnDamageableDestroyed?.Invoke(this, new());
+        Destroy(this.gameObject);
     }
 
     public Transform GetTransform()

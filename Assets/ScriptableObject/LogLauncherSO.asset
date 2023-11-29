@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: LogLauncherSO
   m_EditorClassIdentifier: 
   cardName: Log Launcher
-  cardObject: {fileID: 644947493897193813, guid: be55a276d245ad54e875be8a5921fe2e, type: 3}
+  cardObject: {fileID: 0}
   elixirCost: 4
   cardDeployLocation: 1

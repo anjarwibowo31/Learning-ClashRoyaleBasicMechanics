@@ -5,9 +5,12 @@ using UnityEngine;
 
 public abstract class Tower : MonoBehaviour, IDamageable
 {
+    public event EventHandler<IDamageable.TowerDestroyedEventArgs> OnDamageableDestroyed;
+    public event EventHandler OnDamageableDamaged;
+
     public float Health => health;
-    public Participant Participant => participant;
     public GameObject TowerArea { get => towerArea; set => towerArea = value; }
+    public Participant Participant { get => participant; set => participant = value; }
 
     [SerializeField] private float health;
     [SerializeField] private GameObject towerVisual;
@@ -17,10 +20,12 @@ public abstract class Tower : MonoBehaviour, IDamageable
 
     protected Collider towerCollider;
 
-    public event EventHandler<IDamageable.TowerDestroyedEventArgs> OnDamageableDestroyed;
-    public event EventHandler OnDamageableDamaged;
-
     private void Awake()
+    {
+
+    }
+
+    public void Start()
     {
         towerCollider = GetComponent<Collider>();
 
@@ -29,16 +34,9 @@ public abstract class Tower : MonoBehaviour, IDamageable
 
         ParticipantDataManager.Instance.AddDamageable(this, participant);
 
+        SetPartyAndFlag(participant);
 
-    }
-
-    public void Start()
-    {
-        foreach (MeshRenderer tower in towerFlag)
-        {
-            tower.material = ParticipantDataManager.Instance.ParticipantDictionary[participant].partyFlag;
-        }
-
+        // Event Subscriber
         OnDamageableDestroyed += GameplaySystem.Instance.Tower_OnTowerDestroyed;
     }
 
@@ -56,8 +54,7 @@ public abstract class Tower : MonoBehaviour, IDamageable
     public virtual void GetDestroyed()
     {
         ParticipantDataManager.Instance.RemoveDamageable(this, participant);
-        IDamageable.TowerDestroyedEventArgs eventArgs = new(this);
-        OnDamageableDestroyed?.Invoke(this, eventArgs);
+        OnDamageableDestroyed?.Invoke(this, new(this));
 
         towerVisual.SetActive(false);
         towerArea.SetActive(false);
@@ -67,5 +64,13 @@ public abstract class Tower : MonoBehaviour, IDamageable
     public Transform GetTransform()
     {
         return transform;
+    }
+
+    public void SetPartyAndFlag(Participant participant)
+    {
+        foreach (MeshRenderer tower in towerFlag)
+        {
+            tower.material = ParticipantDataManager.Instance.ParticipantDictionary[participant].partyFlag;
+        }
     }
 }

@@ -9,6 +9,11 @@ public interface IDamageable
     {
         public Tower DestroyedTower { get; private set; }
 
+        public TowerDestroyedEventArgs()
+        {
+            
+        }
+
         public TowerDestroyedEventArgs(Tower destroyedTower)
         {
             DestroyedTower = destroyedTower;
@@ -17,8 +22,10 @@ public interface IDamageable
 
     public event EventHandler<TowerDestroyedEventArgs> OnDamageableDestroyed;
     public event EventHandler OnDamageableDamaged;
-    public abstract float Health { get; }
-    public abstract Participant Participant { get; }
+    public float Health { get; }
+    public Participant Participant { get; set; }
     public void GetDamage(float damage);
     public Transform GetTransform();
+
+    public void SetPartyAndFlag(Participant participant);
 }

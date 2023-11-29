@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 566320640536162409}
   m_Layer: 0
-  m_Name: BarbarianTroop
+  m_Name: BarbarianTroop_CardObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

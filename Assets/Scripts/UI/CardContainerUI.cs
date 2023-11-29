@@ -27,7 +27,7 @@ public class CardContainerUI : MonoBehaviour
 
     private void Start()
     {
-        participantData = ParticipantDataManager.Instance.ParticipantDictionary[Participant.Player];
+        participantData = ParticipantDataManager.Instance.ParticipantDictionary[Participant.Enemy];
 
         foreach (CardSO card in participantData.CardOwnedArray)
         {

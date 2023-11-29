@@ -151,7 +151,7 @@ MonoBehaviour:
   attack: 200
   objectFlag:
   - {fileID: 644947493901317768}
-  health: 200
+  health: 1000
   attackRange: 1.5
 --- !u!54 &6399863994853150524
 Rigidbody:

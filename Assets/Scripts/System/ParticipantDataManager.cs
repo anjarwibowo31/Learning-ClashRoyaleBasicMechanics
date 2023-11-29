@@ -11,6 +11,8 @@ public class SingleParticipantData
     public List<IDamageable> DamageableList { get; set; }
     public List<Tower> TowerList { get; private set; }
     public CardSO[] CardOwnedArray { get => cardOwned; set => cardOwned = value; }
+    public Dictionary<CardSO, GameObject> SpawnObjectDictionary { get; private set; }
+    public Vector3 PartyDirection => partyDirection;
     public int Score { get; set; } = 0;
     public float TotalMaxHealth { get; set; }
     public float TotalCurrentHealth { get; set; }
@@ -21,10 +23,12 @@ public class SingleParticipantData
 
     [SerializeField] private CardSO[] cardOwned;
     [SerializeField] private float startingElixir;
+    [SerializeField] private Vector3 partyDirection;
 
     public SingleParticipantData()
     {
         ElixirAmount = startingElixir;
+        SpawnObjectDictionary = new();
         RestrictionAreaList = new();
         TowerList = new();
         CardContainerDictionary = new();
@@ -63,6 +67,29 @@ public class ParticipantDataManager : MonoBehaviour
             foreach (CardSO card in participant.CardOwnedArray)
             {
                 participant.CardContainerDictionary.Add(card.CardName, card);
+
+                // clone object ke dictionary dan SET OBJECT SEKALIAN
+                GameObject cardObject = Instantiate(card.CardObject);
+                participant.SpawnObjectDictionary.Add(card, cardObject);
+            }
+        }
+    }
+
+    private void Start()
+    {
+        foreach (SingleParticipantData participant in singleParticipantDataArray)
+        {
+            foreach (GameObject gameObject in participant.SpawnObjectDictionary.Values)
+            {
+                IDamageable[] damageables = gameObject.GetComponentsInChildren<IDamageable>();
+
+                foreach (IDamageable damageable in damageables)
+                {
+                    damageable.SetPartyAndFlag(participant.partyName);
+                }
+
+                gameObject.transform.eulerAngles = participant.PartyDirection;
+                gameObject.SetActive(false);
             }
         }
     }

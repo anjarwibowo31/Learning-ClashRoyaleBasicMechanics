@@ -22,6 +22,9 @@ public class HealthbarUI : MonoBehaviour
 
     private void DamageableObject_OnDamageableDestroyed(object sender, IDamageable.TowerDestroyedEventArgs e)
     {
+        damageableObject.OnDamageableDamaged -= DamageableObject_OnDamageableDamaged; ;
+        damageableObject.OnDamageableDestroyed -= DamageableObject_OnDamageableDestroyed;
+
         healthbar.gameObject.SetActive(false);
     }
 
