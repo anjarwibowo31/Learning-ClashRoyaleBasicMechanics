@@ -6,11 +6,18 @@ using UnityEngine.EventSystems;
 
 public class TroopObject : BaseSpawnObject, IDamageable
 {
-    public float Health => health;
+    /*
+    Available for
+    Barbarian (DONE)
+    Giant (DONE)
+    Archer (Need range attack setting)
+    Martyr Bomber (Maybe should derived from this)
 
+    */
+
+    public float Health => health;
     public Participant Participant { get => participant; set => participant = value; }
 
-    private Participant participant;
     private List<IDamageable> enemyDamageableList = new();
     private Transform target;
     private IDamageable targetScript;
@@ -19,9 +26,15 @@ public class TroopObject : BaseSpawnObject, IDamageable
     private Animator animator;
     private bool isMoving = true;
 
+    [SerializeField] private TroopObjectType type;
+    [SerializeField] private Participant participant;
+    [SerializeField] private ObjectTarget objectTarget;
     [SerializeField] private float health;
     [SerializeField] private float attackRange;
 
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Projectile projectile;
+    
     public event EventHandler<IDamageable.TowerDestroyedEventArgs> OnDamageableDestroyed;
     public event EventHandler OnDamageableDamaged;
 
@@ -51,6 +64,7 @@ public class TroopObject : BaseSpawnObject, IDamageable
 
         ParticipantDataManager.Instance.AddDamageable(this, Participant);
 
+
         ParticipantDataManager.Instance.OnDamageableRemoved += ParticipantDataManager_OnDamageableRemoved;
 
         animator = GetComponent<Animator>();
@@ -68,15 +82,30 @@ public class TroopObject : BaseSpawnObject, IDamageable
             Vector3 moveDirection = (target.position - transform.position).normalized;
             transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * 5f);
 
-            foreach (Collider collider in Physics.OverlapSphere(transform.position, attackRange))
+            if (type == TroopObjectType.Melee)
             {
-                if (collider.transform == target.transform)
+                foreach (Collider collider in Physics.OverlapSphere(transform.position, attackRange))
+                {
+                    if (collider.transform == target)
+                    {
+                        isMoving = false;
+                        animator.SetBool("IsAttacking", true);
+                        return;
+                    }
+                    else if (target != null)
+                    {
+                        isMoving = true;
+                    }
+                }
+            }
+            else if (type == TroopObjectType.Range)
+            {
+                if (Vector3.Distance(transform.position, target.position) < attackRange)
                 {
                     isMoving = false;
                     animator.SetBool("IsAttacking", true);
-                    return;
                 }
-                else if (target != null)
+                else
                 {
                     isMoving = true;
                 }
@@ -94,6 +123,7 @@ public class TroopObject : BaseSpawnObject, IDamageable
     public void ParticipantDataManager_OnDamageableRemoved(object sender, System.EventArgs e)
     {
         animator.SetBool("IsAttacking", false);
+
         FindTarget();
     }
 
@@ -105,13 +135,13 @@ public class TroopObject : BaseSpawnObject, IDamageable
         {
             foreach (IDamageable damageable in enemyDamageableList)
             {
-                Vector3 oppPos = damageable.GetTransform().position;
-                float distance = Vector3.Distance(oppPos, transform.position);
-                if (distance < nearestDistance)
+                if (objectTarget == ObjectTarget.Any)
                 {
-                    nearestDistance = distance;
-                    target = damageable.GetTransform();
-                    targetScript = damageable;
+                    SetTarget(damageable);
+                }
+                else if (objectTarget == ObjectTarget.TowerOnly && damageable.GetTransform().TryGetComponent(out Tower tower))
+                {
+                    SetTarget(damageable);
                 }
             }
         }
@@ -119,10 +149,27 @@ public class TroopObject : BaseSpawnObject, IDamageable
         {
             target = null;
         }
+
+        void SetTarget(IDamageable damageable)
+        {
+            Vector3 oppPos = damageable.GetTransform().position;
+            float distance = Vector3.Distance(oppPos, transform.position);
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                target = damageable.GetTransform();
+                targetScript = damageable;
+            }
+        }
     }
 
     public void GetDamage(float damage)
     {
+        if (objectTarget == ObjectTarget.Any && target.TryGetComponent(out Tower tower))
+        {
+            FindTarget();
+        }
+
         health -= damage;
 
         if (health <= 0)
@@ -136,10 +183,10 @@ public class TroopObject : BaseSpawnObject, IDamageable
     private void GetDestroyed()
     {
         ParticipantDataManager.Instance.OnDamageableRemoved -= ParticipantDataManager_OnDamageableRemoved;
-
         ParticipantDataManager.Instance.RemoveDamageable(this, Participant);
 
         OnDamageableDestroyed?.Invoke(this, new());
+
         Destroy(this.gameObject);
     }
 
@@ -151,7 +198,19 @@ public class TroopObject : BaseSpawnObject, IDamageable
     // Animation Event
     public void Attack()
     {
-        targetScript.GetDamage(attack);
+        if (targetScript != null)
+        {
+            if (type == TroopObjectType.Melee)
+            {
+                targetScript.GetDamage(attack);
+            }
+            else
+            {
+                Projectile projectileInstance = Instantiate(projectile, spawnPoint.position, Quaternion.identity);
+
+                projectileInstance.SetProjectile(target, targetScript, attack);
+            }
+        }
     }
 
     private void OnDrawGizmos()

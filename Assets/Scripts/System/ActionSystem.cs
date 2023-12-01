@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerActionSystem : MonoBehaviour
+public class ActionSystem : MonoBehaviour
 {
-    public static PlayerActionSystem Instance { get; private set; }
+    public static ActionSystem Instance { get; private set; }
 
     public float ElixirAmount { get; set; }
 
@@ -100,9 +100,9 @@ public class PlayerActionSystem : MonoBehaviour
 
                         GameObject gameObject = ParticipantDataManager.Instance.ParticipantDictionary[participant].SpawnObjectDictionary[cardSelected];
 
-                        GameObject spawnObject = Instantiate(gameObject, hitInfo.point, Quaternion.identity);
-                        spawnObject.SetActive(true);
+                        GameObject spawnObject = Instantiate(gameObject, hitInfo.point, Quaternion.Euler(ParticipantDataManager.Instance.ParticipantDictionary[participant].PartyDirection));
 
+                        spawnObject.SetActive(true);
                     }
                 }
             }

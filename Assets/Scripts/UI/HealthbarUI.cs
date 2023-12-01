@@ -16,13 +16,17 @@ public class HealthbarUI : MonoBehaviour
         damageableObject.OnDamageableDamaged += DamageableObject_OnDamageableDamaged; ;
         damageableObject.OnDamageableDestroyed += DamageableObject_OnDamageableDestroyed;
 
-        healthbar.gameObject.SetActive(false);
+        if (healthbar.gameObject.activeSelf)
+        {
+            healthbar.gameObject.SetActive(false);
+        }
+
         healthbar.maxValue = damageableObject.Health;
     }
 
     private void DamageableObject_OnDamageableDestroyed(object sender, IDamageable.TowerDestroyedEventArgs e)
     {
-        damageableObject.OnDamageableDamaged -= DamageableObject_OnDamageableDamaged; ;
+        damageableObject.OnDamageableDamaged -= DamageableObject_OnDamageableDamaged;
         damageableObject.OnDamageableDestroyed -= DamageableObject_OnDamageableDestroyed;
 
         healthbar.gameObject.SetActive(false);

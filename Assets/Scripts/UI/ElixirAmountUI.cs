@@ -10,11 +10,11 @@ public class ElixirAmountUI : MonoBehaviour
     private void Awake()
     {
         elixirSlider = GetComponent<Slider>();
-        elixirSlider.maxValue = PlayerActionSystem.maxElixirAmount;
+        elixirSlider.maxValue = ActionSystem.maxElixirAmount;
     }
 
     private void Update()
     {
-        elixirSlider.value = PlayerActionSystem.Instance.ElixirAmount;
+        elixirSlider.value = ActionSystem.Instance.ElixirAmount;
     }
 }

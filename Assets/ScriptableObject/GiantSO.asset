@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: GiantSO
   m_EditorClassIdentifier: 
   cardName: Giant
-  cardObject: {fileID: 644947493897193813, guid: a46b86a2c2574b74f9527762f2b721c0, type: 3}
+  cardObject: {fileID: 3972444991855605960, guid: 7f18c7862f4148847bb0790fb21503b7, type: 3}
   elixirCost: 5
   cardDeployLocation: 1

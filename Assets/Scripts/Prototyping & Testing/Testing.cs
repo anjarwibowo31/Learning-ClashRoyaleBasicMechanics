@@ -24,7 +24,6 @@ public class Testing : MonoBehaviour
 
                 if (hitInfo.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
                 {
-                    print(damageable.GetTransform().name);
                     damageable.GetDamage(attackAmount);
                 }
             }

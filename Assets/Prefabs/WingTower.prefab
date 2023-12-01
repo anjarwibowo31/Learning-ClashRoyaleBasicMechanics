@@ -43,8 +43,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1889555756141434085}
   - component: {fileID: -120310614667617779}
-  - component: {fileID: 4230773634075989033}
   - component: {fileID: 7020094972862348080}
+  - component: {fileID: 5879428780641269799}
   m_Layer: 0
   m_Name: WingTower
   m_TagString: Untagged
@@ -88,19 +88,6 @@ MonoBehaviour:
   towerFlag:
   - {fileID: 4818827327961414435}
   participant: 1
---- !u!65 &4230773634075989033
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3518315075908795904}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.8, y: 1.8, z: 1.8}
-  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!54 &7020094972862348080
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -115,8 +102,22 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!136 &5879428780641269799
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3518315075908795904}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.95
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4675393120091710119
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,7 +493,8 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1875183747174823080, guid: f2726b43a4aad71479b8239fbe98ab17, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f2726b43a4aad71479b8239fbe98ab17, type: 3}
 --- !u!224 &4152842591611707564 stripped
 RectTransform:

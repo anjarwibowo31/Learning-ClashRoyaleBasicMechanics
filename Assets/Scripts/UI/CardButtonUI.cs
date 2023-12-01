@@ -29,7 +29,7 @@ public class CardButtonUI : MonoBehaviour
     {
         if (GameplaySystem.Instance.GameState == GameState.Battle)
         {
-            PlayerActionSystem.Instance.SetSelectedCard(Card);
+            ActionSystem.Instance.SetSelectedCard(Card);
             CardContainerUI.Instance.UpdateCardSelected(Card);
         }
     }

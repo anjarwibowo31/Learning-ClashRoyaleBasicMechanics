@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2e03a93075009643aed16f3949fba15, type: 3}
   m_Name: BarbarianSO
   m_EditorClassIdentifier: 
-  cardName: Barbarian
+  cardName: Barbarian Troop
   cardObject: {fileID: 2023484722226275823, guid: eedfd2f754ee0fe498ff6c92d84b39a7, type: 3}
   elixirCost: 5
   cardDeployLocation: 1

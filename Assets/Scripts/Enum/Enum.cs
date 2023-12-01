@@ -11,11 +11,10 @@ public enum GameState
     Result
 }
 
-public enum SpellBehaviourType
+public enum TroopObjectType
 {
-    GroundAttack,
-    SplashAreaAttack,
-    TowerTargetingAttack
+    Melee,
+    Range
 }
 
 public enum CardDeployLocation
@@ -24,9 +23,8 @@ public enum CardDeployLocation
     Limited
 }
 
-public enum CardType
+public enum ObjectTarget
 {
-    Spell,
-    Troop,
-    Tower
+    Any,
+    TowerOnly
 }

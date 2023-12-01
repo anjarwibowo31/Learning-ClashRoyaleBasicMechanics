@@ -133,7 +133,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.45
-  m_Height: 1
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!114 &8248275074287560047
@@ -149,11 +149,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
-  attack: 40
+  attack: 50
   objectFlag:
   - {fileID: 644947493901317768}
+  type: 0
+  participant: 0
+  objectTarget: 0
   health: 200
   attackRange: 0.75
+  spawnPoint: {fileID: 0}
+  projectile: {fileID: 0}
 --- !u!54 &6399863994853150524
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -334,7 +339,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: efb02f2af1af75b46808eeaffef9bc65, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -518,20 +523,3 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2883940149181730702, guid: f2726b43a4aad71479b8239fbe98ab17, type: 3}
   m_PrefabInstance: {fileID: 4072935174854128614}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &3862331563937495897 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 944694817246038207, guid: f2726b43a4aad71479b8239fbe98ab17, type: 3}
-  m_PrefabInstance: {fileID: 4072935174854128614}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7253368353021807855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3862331563937495897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fbc243abb057ec418a53bfb1ea7421b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

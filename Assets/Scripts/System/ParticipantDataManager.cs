@@ -70,6 +70,7 @@ public class ParticipantDataManager : MonoBehaviour
 
                 // clone object ke dictionary dan SET OBJECT SEKALIAN
                 GameObject cardObject = Instantiate(card.CardObject);
+
                 participant.SpawnObjectDictionary.Add(card, cardObject);
             }
         }
