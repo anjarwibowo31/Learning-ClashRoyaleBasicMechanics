@@ -15,6 +15,11 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
+        if (target == null)
+        {
+            Destroy(gameObject);
+        }
+
         targetPos = new Vector3(target.position.x, transform.position.y, target.position.z);
         transform.LookAt(targetPos);
     }

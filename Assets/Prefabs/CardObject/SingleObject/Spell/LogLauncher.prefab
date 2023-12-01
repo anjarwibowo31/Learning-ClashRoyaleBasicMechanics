@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 580806000832016521}
   - component: {fileID: -1024720537026463848}
   m_Layer: 0
-  m_Name: LogLauncher_CardObject
+  m_Name: LogLauncher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
