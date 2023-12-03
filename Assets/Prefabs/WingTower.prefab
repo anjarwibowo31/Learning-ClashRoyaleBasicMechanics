@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df08af1bf2fc9c6499acdad9c70fc3d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 2500
   towerVisual: {fileID: 2654685228388310914}
   towerArea: {fileID: 7039917348108617728}
   towerFlag:

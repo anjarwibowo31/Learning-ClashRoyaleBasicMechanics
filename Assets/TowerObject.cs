@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class TowerObject : MonoBehaviour
@@ -64,6 +62,8 @@ public class TowerObject : MonoBehaviour
         Projectile projectileInstance = Instantiate(projectile, spawnPoint.position, Quaternion.identity);
 
         projectileInstance.SetProjectile(target, targetScript, attack);
+
+        if (target == null) FindTarget();
     }
 
     private void ParticipantDataManager_OnDamageableListChanged(object sender, EventArgs e)

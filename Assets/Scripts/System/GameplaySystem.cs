@@ -126,6 +126,22 @@ public class GameplaySystem : MonoBehaviour
         OnGameStateChanged?.Invoke(newState);
     }
 
+    public void UpdateGameStateForceLose(GameState newState, Participant loseParticipant)
+    {
+        gameState = newState;
+
+        if (loseParticipant == Participant.Enemy)
+        {
+            gameResult = "You Win";
+        }
+        else
+        {
+            gameResult = "You Lose";
+        }
+
+        OnGameStateChanged?.Invoke(newState);
+    }
+
     public string GetCurrentTimerConverted()
     {
         int minutes = (int)countdownBattleTimer / 60;
@@ -216,7 +232,7 @@ public class GameplaySystem : MonoBehaviour
 
     public string GetCountdownLoadingTimer()
     {
-        return $"{(int)countdownLoadingTimer}";
+        return $"{Mathf.CeilToInt(countdownLoadingTimer)}";
     }
 
     public GameState GetCurrentState()

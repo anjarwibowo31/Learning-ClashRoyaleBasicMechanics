@@ -344,10 +344,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1291149441}
     m_Modifications:
     - target: {fileID: -120310614667617779, guid: 8a47e0e64dfab814b97a7ac696867991, type: 3}
-      propertyPath: health
-      value: 1800
-      objectReference: {fileID: 0}
-    - target: {fileID: -120310614667617779, guid: 8a47e0e64dfab814b97a7ac696867991, type: 3}
       propertyPath: participant
       value: 1
       objectReference: {fileID: 0}
@@ -769,10 +765,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 437855029}
     m_Modifications:
-    - target: {fileID: -120310614667617779, guid: 8a47e0e64dfab814b97a7ac696867991, type: 3}
-      propertyPath: health
-      value: 1800
-      objectReference: {fileID: 0}
     - target: {fileID: -120310614667617779, guid: 8a47e0e64dfab814b97a7ac696867991, type: 3}
       propertyPath: participant
       value: 0
@@ -1282,10 +1274,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1291149441}
     m_Modifications:
-    - target: {fileID: -120310614667617779, guid: 8a47e0e64dfab814b97a7ac696867991, type: 3}
-      propertyPath: health
-      value: 1800
-      objectReference: {fileID: 0}
     - target: {fileID: -120310614667617779, guid: 8a47e0e64dfab814b97a7ac696867991, type: 3}
       propertyPath: participant
       value: 1
@@ -4476,10 +4464,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1291149441}
     m_Modifications:
     - target: {fileID: -7867233510501047598, guid: 06d39b47a147d15408508edfa1c7cc8a, type: 3}
-      propertyPath: health
-      value: 2500
-      objectReference: {fileID: 0}
-    - target: {fileID: -7867233510501047598, guid: 06d39b47a147d15408508edfa1c7cc8a, type: 3}
       propertyPath: participant
       value: 1
       objectReference: {fileID: 0}
@@ -5032,10 +5016,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 437855029}
     m_Modifications:
-    - target: {fileID: -7867233510501047598, guid: 06d39b47a147d15408508edfa1c7cc8a, type: 3}
-      propertyPath: health
-      value: 2500
-      objectReference: {fileID: 0}
     - target: {fileID: 710559871198161932, guid: 06d39b47a147d15408508edfa1c7cc8a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -5170,10 +5150,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 437855029}
     m_Modifications:
-    - target: {fileID: -120310614667617779, guid: 8a47e0e64dfab814b97a7ac696867991, type: 3}
-      propertyPath: health
-      value: 1800
-      objectReference: {fileID: 0}
     - target: {fileID: -120310614667617779, guid: 8a47e0e64dfab814b97a7ac696867991, type: 3}
       propertyPath: participant
       value: 0

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainTower : Tower
@@ -9,6 +7,7 @@ public class MainTower : Tower
     {
         base.Start();
 
+        canon.SetActive(false);
         foreach (Tower tower in ParticipantDataManager.Instance.ParticipantDictionary[Participant].TowerList)
         {
             if (tower.TryGetComponent(out WingTower wingTower))
@@ -32,6 +31,6 @@ public class MainTower : Tower
     {
         base.GetDestroyed();
 
-        // implement absolute defeated jika main tower hancur
+        GameplaySystem.Instance.UpdateGameStateForceLose(GameState.Result, Participant);
     }
 }
