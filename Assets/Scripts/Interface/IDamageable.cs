@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public interface IDamageable
@@ -26,6 +24,4 @@ public interface IDamageable
     public Participant Participant { get; set; }
     public void GetDamage(float damage);
     public Transform GetTransform();
-
-    public void SetPartyAndFlag(Participant participant);
 }

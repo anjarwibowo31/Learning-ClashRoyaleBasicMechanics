@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,11 +21,6 @@ public abstract class Tower : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-
-    }
-
-    public void Start()
-    {
         towerCollider = GetComponent<Collider>();
 
         ParticipantDataManager.Instance.ParticipantDictionary[participant].TowerList.Add(this);
@@ -35,9 +29,12 @@ public abstract class Tower : MonoBehaviour, IDamageable
         ParticipantDataManager.Instance.AddDamageable(this, participant);
 
         SetPartyAndFlag(participant);
+    }
 
-        // Event Subscriber
+    protected virtual void Start()
+    {
         OnDamageableDestroyed += GameplaySystem.Instance.Tower_OnTowerDestroyed;
+
     }
 
     public virtual void GetDamage(float damageAmount)
@@ -53,6 +50,7 @@ public abstract class Tower : MonoBehaviour, IDamageable
 
     public virtual void GetDestroyed()
     {
+        ParticipantDataManager.Instance.ParticipantDictionary[participant].RestrictionAreaList.Remove(towerArea);
         ParticipantDataManager.Instance.RemoveDamageable(this, participant);
         OnDamageableDestroyed?.Invoke(this, new(this));
 

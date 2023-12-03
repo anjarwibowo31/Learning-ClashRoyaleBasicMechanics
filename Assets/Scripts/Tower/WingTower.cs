@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using System;
 
 public class WingTower : Tower
 {
+    public event Action OnWingTowerDestroyed;
+
     public override void GetDamage(float damageAmount)
     {
         base.GetDamage(damageAmount);
@@ -12,6 +13,6 @@ public class WingTower : Tower
     {
         base.GetDestroyed();
 
-        // aktifkan main tower defensive canon
+        OnWingTowerDestroyed?.Invoke();
     }
 }

@@ -82,11 +82,11 @@ public class ParticipantDataManager : MonoBehaviour
         {
             foreach (GameObject gameObject in participant.SpawnObjectDictionary.Values)
             {
-                IDamageable[] damageables = gameObject.GetComponentsInChildren<IDamageable>();
+                BaseSpawnObject[] spawnObjectArray = gameObject.GetComponentsInChildren<BaseSpawnObject>();
 
-                foreach (IDamageable damageable in damageables)
+                foreach (BaseSpawnObject spawnObject in spawnObjectArray)
                 {
-                    damageable.SetPartyAndFlag(participant.partyName);
+                    spawnObject.SetPartyAndFlag(participant.partyName);
                 }
 
                 gameObject.transform.eulerAngles = participant.PartyDirection;

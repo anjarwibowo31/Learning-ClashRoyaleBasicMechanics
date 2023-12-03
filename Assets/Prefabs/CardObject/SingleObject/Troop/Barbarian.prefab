@@ -148,14 +148,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfef443ffe3ef7e41a552f961dda5dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  participant: 0
   moveSpeed: 1
   attack: 50
   objectFlag:
   - {fileID: 644947493901317768}
   type: 0
-  participant: 0
   objectTarget: 0
-  health: 200
+  health: 300
   attackRange: 0.75
   spawnPoint: {fileID: 0}
   projectile: {fileID: 0}

@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 
@@ -16,6 +13,7 @@ public class GameplaySystem : MonoBehaviour
     public event Action<GameState> OnGameStateChanged;
 
     public GameState GameState => gameState;
+    public string GameResult => gameResult;
 
     // Timer
     [SerializeField][Tooltip("in seconds")] private float battleTime;
@@ -48,6 +46,8 @@ public class GameplaySystem : MonoBehaviour
         enemyData = ParticipantDataManager.Instance.ParticipantDictionary[Participant.Enemy];
 
         SumTotalMaxHealth();
+
+        UpdateGameState(GameState.Loading);
     }
 
     private void Update()
@@ -65,26 +65,6 @@ public class GameplaySystem : MonoBehaviour
                 break;
         }
     }
-
-    // SHOULD DELETE IT AND MOVE TO PARTICIPANT DATA
-    //private void TowerListing()
-    //{
-    //    Tower[] towerlist = FindObjectsOfType<Tower>();
-
-    //    foreach (Tower tower in towerlist)
-    //    {
-    //        if (tower.Participant == Participant.Player)
-    //        {
-    //            playerData.TowerList.Add(tower);
-    //        }
-    //        else if (tower.Participant == Participant.Enemy)
-    //        {
-    //            enemyData.TowerList.Add(tower);
-    //        }
-
-    //        tower.OnTowerDestroyed += Tower_OnTowerDestroyed;
-    //    }
-    //}
 
     public void Tower_OnTowerDestroyed(object sender, IDamageable.TowerDestroyedEventArgs e)
     {
@@ -106,6 +86,11 @@ public class GameplaySystem : MonoBehaviour
                 ++playerData.Score;
                 break;
             }
+        }
+
+        if (playerData.Score == 3 || enemyData.Score == 3)
+        {
+            UpdateGameState(GameState.Result);
         }
 
         OnTrophyCountChanged?.Invoke(this, EventArgs.Empty);
@@ -158,11 +143,11 @@ public class GameplaySystem : MonoBehaviour
         {
             if (playerData.Score > enemyData.Score)
             {
-                return "Player Win";
+                return "You Win";
             }
             else if (enemyData.Score > playerData.Score)
             {
-                return "Enemy Win";
+                return "You Lose";
             }
             else
             {
@@ -175,11 +160,11 @@ public class GameplaySystem : MonoBehaviour
 
                 if (playerDamage > enemyDamage)
                 {
-                    return "Enemy Win";
+                    return "You Lose";
                 }
                 else if (enemyDamage > playerDamage)
                 {
-                    return "Player Win";
+                    return "You Win";
                 }
                 else
                 {

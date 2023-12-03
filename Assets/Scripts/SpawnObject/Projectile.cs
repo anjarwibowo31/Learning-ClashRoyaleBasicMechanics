@@ -1,5 +1,3 @@
-using System;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -10,7 +8,6 @@ public class Projectile : MonoBehaviour
     private Vector3 targetPos;
 
     [SerializeField] private float speed = 5f;
-    [SerializeField] private Vector3 sphereCastThreshold;
     [SerializeField] private LayerMask layerMask;
 
     private void Start()
@@ -18,10 +15,20 @@ public class Projectile : MonoBehaviour
         if (target == null)
         {
             Destroy(gameObject);
+            return;
         }
 
-        targetPos = new Vector3(target.position.x, transform.position.y, target.position.z);
+        targetPos = GetAimLocation();
         transform.LookAt(targetPos);
+    }
+
+    private Vector3 GetAimLocation()
+    {
+        if (!target.TryGetComponent(out CapsuleCollider targetCollider))
+        {
+            return target.transform.position;
+        }
+        return target.transform.position + 0.2f * targetCollider.height * Vector3.up;
     }
 
     private void Update()

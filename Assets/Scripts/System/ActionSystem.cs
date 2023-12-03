@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ActionSystem : MonoBehaviour
@@ -28,27 +26,10 @@ public class ActionSystem : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-
-        if (participant == Participant.Player)
-        {
-            oppositeParticipant = Participant.Enemy;
-        }
-        else
-        {
-            oppositeParticipant = Participant.Player;
-        }
     }
 
     private void Start()
     {
-        foreach (SingleParticipantData singleParticipantData in ParticipantDataManager.Instance.ParticipantDictionary.Values)
-        {
-            foreach (GameObject gameObject in singleParticipantData.RestrictionAreaList)
-            {
-                gameObject.SetActive(false);
-            }
-        }
-
         mainCamera = Camera.main;
 
         ElixirAmount = startingElixir;
@@ -77,9 +58,19 @@ public class ActionSystem : MonoBehaviour
 
     public void SetSelectedCard(CardSO cardSelected)
     {
+        // FOR TEST, should be in awake
+        if (participant == Participant.Player)
+        {
+            oppositeParticipant = Participant.Enemy;
+        }
+        else
+        {
+            oppositeParticipant = Participant.Player;
+        }
+
         this.cardSelected = cardSelected;
 
-        AreaManager.Instance.UpdateArea(cardSelected, oppositeParticipant);
+        AreaManager.Instance.UpdateArea(cardSelected, participant, oppositeParticipant);
     }
 
     public void DeployCard()

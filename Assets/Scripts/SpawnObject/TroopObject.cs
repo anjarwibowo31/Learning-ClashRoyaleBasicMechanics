@@ -1,33 +1,19 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class TroopObject : BaseSpawnObject, IDamageable
 {
-    /*
-    Available for
-    Barbarian (DONE)
-    Giant (DONE)
-    Archer (Need range attack setting)
-    Martyr Bomber (Maybe should derived from this)
-
-    */
-
     public float Health => health;
-    public Participant Participant { get => participant; set => participant = value; }
 
     private List<IDamageable> enemyDamageableList = new();
     private Transform target;
     private IDamageable targetScript;
     private Rigidbody rb;
-    private Participant oppositeParticipant;
     private Animator animator;
     private bool isMoving = true;
 
     [SerializeField] private TroopObjectType type;
-    [SerializeField] private Participant participant;
     [SerializeField] private ObjectTarget objectTarget;
     [SerializeField] private float health;
     [SerializeField] private float attackRange;
@@ -38,7 +24,7 @@ public class TroopObject : BaseSpawnObject, IDamageable
     public event EventHandler<IDamageable.TowerDestroyedEventArgs> OnDamageableDestroyed;
     public event EventHandler OnDamageableDamaged;
 
-    public void SetPartyAndFlag(Participant participant)
+    public override void SetPartyAndFlag(Participant participant)
     {
         Participant = participant;
 
@@ -47,7 +33,6 @@ public class TroopObject : BaseSpawnObject, IDamageable
             meshRenderer.material = ParticipantDataManager.Instance.ParticipantDictionary[participant].partyFlag;
         }
     }
-
 
     private void Start()
     {
@@ -63,7 +48,6 @@ public class TroopObject : BaseSpawnObject, IDamageable
         rb = GetComponent<Rigidbody>();
 
         ParticipantDataManager.Instance.AddDamageable(this, Participant);
-
 
         ParticipantDataManager.Instance.OnDamageableRemoved += ParticipantDataManager_OnDamageableRemoved;
 
