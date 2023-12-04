@@ -79,6 +79,9 @@ public class TowerObject : MonoBehaviour
         {
             foreach (IDamageable damageable in enemyDamageableList)
             {
+                //tower exception
+                if (damageable.GetTransform().TryGetComponent(out Tower tower)) continue;
+
                 Vector3 oppPos = damageable.GetTransform().position;
                 float distance = Vector3.Distance(oppPos, transform.position);
                 if (distance < nearestDistance)
